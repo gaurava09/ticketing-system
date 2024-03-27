@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </select>
 </div>
 
-<div class="col-md-3 mb-3">
+<!-- <div class="col-md-3 mb-3">
  	<select class="form-control" id="classification" >
     	<option value="">Select Classification</option>
         <?php
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         	}
         ?>
     </select>
-</div>
+</div> -->
 
 <?php if($this->role == 'admin') { ?>
 	<div class="col-md-3 mb-3">

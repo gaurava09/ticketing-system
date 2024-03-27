@@ -9,7 +9,7 @@ if($this->role == 'admin'){
      $can_action = 0;
   }
 }
-
+/*
  if($this->role == 'admin'){
     echo form_open_multipart('complaint/classification',array('id' => 'classForm','autocomplete' => 'off') ); ?>
       <div class="row">
@@ -39,7 +39,7 @@ if($this->role == 'admin'){
           </div>
       </div>
       </form>
-<?php }  
+<?php }*/  
 // xx admin or employee assigned by admin
 //admin or top_dept 1
 if($topLevel == 1){ ?>
