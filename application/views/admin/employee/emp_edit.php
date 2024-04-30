@@ -109,7 +109,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ?>
     </select>
 </div>
-
+<div class="col-md-4 form-group mb-3"><label for=" ">Role</label>
+    <select class="form-control " id="role" name="role">
+        <option value="">Select Role</option>
+        <option value="admin" <?php echo ($data['role'] == 'admin') ? "selected" : ""; ?> >Admin</option>
+        <option value="employee" <?php echo ($data['role'] == 'employee') ? "selected" : ""; ?> >Employee</option>
+    </select>
+</div>
 
 <div class="col-md-4 form-group mb-3"><label for=" ">Status</label>
 	<select class="form-control" id="status" name="status">

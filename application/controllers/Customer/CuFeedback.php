@@ -155,21 +155,21 @@ class CuFeedback extends My_Controller
 		}
 
 
-		$this->form_validation->set_rules('period', 'Period', 'required');
-		$this->form_validation->set_rules('name', 'Representative Name', 'required');
+		//$this->form_validation->set_rules('period', 'Period', 'required');
+		//$this->form_validation->set_rules('name', 'Representative Name', 'required');
 		$this->form_validation->set_rules('suggestion', 'Suggestion', 'required');
 		$this->form_validation->set_rules('comment', 'Comment', 'required');
-		$this->form_validation->set_rules('suitable_time', 'Was the visit timing suitable to your requirement?', 'required');
+		//$this->form_validation->set_rules('suitable_time', 'Was the visit timing suitable to your requirement?', 'required');
 
-		$this->form_validation->set_rules('tech_knowledge', 'Technical knowledge', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Technical knowledge'));
+		//$this->form_validation->set_rules('tech_knowledge', 'Technical knowledge', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Technical knowledge'));
 		
-		$this->form_validation->set_rules('comm_skill', 'Communication skills', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Communication skills'));
+		//$this->form_validation->set_rules('comm_skill', 'Communication skills', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Communication skills'));
 		
-		$this->form_validation->set_rules('punctuality', 'Punctuality', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Punctuality'));
+		//$this->form_validation->set_rules('punctuality', 'Punctuality', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Punctuality'));
 		
-		$this->form_validation->set_rules('safety', 'Commitment to Safety', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Commitment to Safety'));
+		//$this->form_validation->set_rules('safety', 'Commitment to Safety', 'required|in_list[1,2,3,4,5]', array('required'=> 'Please Rate Commitment to Safety'));
 		
-		$this->form_validation->set_rules('equipment_performance', 'Equipment Performance', 'required|in_list[1,2,3,4,5]', array('required'=>'Please Rate Equipment Performance'));
+		//$this->form_validation->set_rules('equipment_performance', 'Equipment Performance', 'required|in_list[1,2,3,4,5]', array('required'=>'Please Rate Equipment Performance'));
 
 		$this->form_validation->set_rules('service_rating', 'our service', 'required|in_list[1,2,3,4,5,6,7,8,9,10]', array('required'=> 'Please Rate our service'));
 
@@ -183,21 +183,21 @@ class CuFeedback extends My_Controller
 
         //Store
         $ratings = array(
-        	'tech_knowledge' => $this->input->post('tech_knowledge',TRUE),
-        	'comm_skill' => $this->input->post('comm_skill',TRUE),
-        	'punctuality' => $this->input->post('punctuality',TRUE),
-        	'safety' => $this->input->post('safety',TRUE),
-        	'equipment_performance' => $this->input->post('equipment_performance',TRUE),
+        	//'tech_knowledge' => $this->input->post('tech_knowledge',TRUE),
+        	//'comm_skill' => $this->input->post('comm_skill',TRUE),
+        	//'punctuality' => $this->input->post('punctuality',TRUE),
+        	//'safety' => $this->input->post('safety',TRUE),
+        	//'equipment_performance' => $this->input->post('equipment_performance',TRUE),
         	'service_rating' => $this->input->post('service_rating',TRUE),
         );
 
        	$data = [];
         $data['complaint_id'] 		= $complaintId;
-        $data['period'] 			= $this->input->post('period',TRUE);
-		$data['representative_name'] = $this->input->post('name',TRUE);
+        //$data['period'] 			= $this->input->post('period',TRUE);
+		//$data['representative_name'] = $this->input->post('name',TRUE);
 		$data['suggestion'] 		= $this->input->post('suggestion',TRUE);
 		$data['comment'] 			= $this->input->post('comment',TRUE);
-		$data['suitable_time'] 		= $this->input->post('suitable_time',TRUE);
+		//$data['suitable_time'] 		= $this->input->post('suitable_time',TRUE);
 		$data['rating'] 			= json_encode($ratings);
 		$data['status'] 			= 1;
 		$data['created_at'] 		= getDt();

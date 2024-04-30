@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 <div class="">
 <div class="float-left breadcrumb"><h1 class="mr-2">All Feedback</h1></div>
-<div class="float-right"><a class="btn btn-primary" type="button" data-dismiss="modal" href="<?php echo site_url('customer/complaint/create'); ?>"><i class="i-Add-File"></i> Add</a></div>
+<!-- <div class="float-right"><a class="btn btn-primary" type="button" data-dismiss="modal" href="<?php echo site_url('customer/complaint/create'); ?>"><i class="i-Add-File"></i> Add</a></div> -->
 <div class="clearfix"></div>
 </div>
 
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <th scope="col">Sr. No.</th>
 <th scope="col">Ticket No.</th>
-<th scope="col">GA Number</th>
+<!-- <th scope="col">GA Number</th> -->
 <th scope="col">Type of Complaint</th>
 <th scope="col">Created Date</th>
 <th scope="col">Action</th>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					      }
 					    },
 	                    { data: 'ticket_no' },
-	                    { data: 'ga_no' },
+	                    //{ data: 'ga_no' },
 	                    { data: 'complaint_type' },
 	                    { data: 'created_at' },
 	                    {

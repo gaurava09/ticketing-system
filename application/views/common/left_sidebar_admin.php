@@ -14,12 +14,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-<?php if($this->role == 'admin') { ?>
+<!-- <?php if($this->role == 'super_admin') { ?>
 	<li class="nav-item" data-item="customer_management"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Horizontal-Text"></i><span class="nav-text">Customer Management</span></a>
 		<div class="triangle"></div>
 	</li>
-<?php } ?>
-
+<?php } ?> -->
+<?php //echo $this->role;exit; ?>
 <?php if($this->role == 'sales') { ?>
 
 	<li class="nav-item" data1-item="dashboard"><a class="nav-item-hold" href="<?php echo site_url('enquiry'); ?>"><i class="nav-icon i-Bar-Chart"></i><span class="nav-text">Enquiry List</span></a>
@@ -34,14 +34,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-<?php if($this->role == 'admin') { ?>
-	<!-- <li class="nav-item" data-item="customer_feedback"><a class="nav-item-hold" href="#"><i class="nav-icon i-Add-UserStar"></i><span class="nav-text">Customer Feedback</span></a>
+<?php if($this->role == 'super_admin' || $this->role == 'admin') { ?>
+	<li class="nav-item" data-item="customer_feedback"><a class="nav-item-hold" href="#"><i class="nav-icon i-Add-UserStar"></i><span class="nav-text">Customer Feedback</span></a>
 		<div class="triangle"></div>
-	</li> -->
+	</li>
 <?php } ?>
 
 
-<!-- <?php if($this->role == 'admin') { ?>
+<!-- <?php if($this->role == 'super_admin') { ?>
 <li class="nav-item" data-item="enquiry_management"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Horizontal-Text"></i><span class="nav-text">Enquiry Management</span></a>
 <div class="triangle"></div>
 </li>
@@ -53,11 +53,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </li>
 <?php } ?>
 
-<?php if($this->role == 'admin') { ?>
+<?php if($this->role == 'super_admin') { ?>
 
-<li class="nav-item" data-item="cms_pages"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="nav-text">Pages</span></a>
+<!-- <li class="nav-item" data-item="cms_pages"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="nav-text">Pages</span></a>
 <div class="triangle"></div>
-</li>
+</li> -->
 
 
 <li class="nav-item" data-item="master_data_management"><a class="nav-item-hold" href="#"><i class="nav-icon i-Add-UserStar"></i><span class="nav-text">Master Data Management</span></a>
@@ -73,11 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <li class="nav-item"><a href="<?php echo site_url(); ?>"><i class="nav-icon i-Clock-3"></i><span class="item-name">Dashboard</span></a></li>
 </ul> -->
 
-<?php if($this->role == 'admin') { ?>
-<ul class="childNav" data-parent="customer_management">
+<?php if($this->role == 'super_admin' || $this->role == 'admin') { ?>
+<!-- <ul class="childNav" data-parent="customer_management">
 <li class="nav-item"><a href="<?php echo site_url('customer'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Customer List</span></a></li>
 <li class="nav-item"><a href="<?php echo site_url('customer/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add New Customer</span></a></li>
-</ul>
+</ul> -->
 
 <ul class="childNav" data-parent="customer_feedback">
 <li class="nav-item"><a href="<?php echo site_url('feedback'); ?>"><i class="nav-icon i-File-Horizontal-Text"></i><span class="item-name">List of Feedback</span></a></li>
@@ -89,14 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <ul class="childNav" data-parent="ticket_management">
 <li class="nav-item"><a href="<?php echo site_url('complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Complaint List</span></a></li>
 
-<?php if($this->role == 'admin') { ?>
+<?php if($this->role == 'super_admin') { ?>
 <li class="nav-item"><a href="<?php echo site_url('complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Complaint</span></a></li>
 <?php } ?>
 
 </ul>
 
 
-<?php if($this->role == 'admin') { ?>
+<?php if($this->role == 'super_admin') { ?>
 <ul class="childNav" data-parent="enquiry_management">
 <li class="nav-item"><a href="<?php echo site_url('enquiry'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Enquiry List </span></a></li>
 
@@ -156,6 +156,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </li>
 <!--accordion-->
 
+
+
+<!-- <ul class="childNav" data-parent="customer_management">
+<li class="nav-item"><a href="<?php echo site_url('customer'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Customer List</span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('customer/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add New Customer</span></a></li>
+</ul> -->
+
+
+
+<!--accordion-->
+<li class="nav-item">
+<a class="min_box-h nav_h1 font_s1"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Customer </span></a>
+<div class="min_box-tx">
+
+<ul>
+<li class="nav-item"><a href="<?php echo site_url('customer'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">List </span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('customer/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add</span></a></li>
+</ul></div>
+</li>
+<!--accordion-->
 
 <!--accordion-->
 <li class="nav-item">

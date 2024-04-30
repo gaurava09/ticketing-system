@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel="stylesheet" href="<?php echo base_url('assets/dist-assets/css/plugins/datatables.min.css') ?>" />
 <link href="<?php echo base_url('assets/libs/jquery-ui/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css">
 
-    
+   
 <div class="">
 	<div class="float-left breadcrumb"><h1 class="mr-2">All Feedback</h1></div>
 	<div class="float-right">
@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row mb-12 filter-div search_div">
 	<div class="col-md-3 mb-3"><input class="form-control" id="ticket_no" type="text" placeholder="Ticket No."></div>
-	<div class="col-md-3 mb-3"><input class="form-control" id="ga_no" type="text" placeholder="GA No."></div>
+	<!-- <div class="col-md-3 mb-3"><input class="form-control" id="ga_no" type="text" placeholder="GA No."></div> -->
 
 	<div class="col-md-3 mb-3">
 	 	<select class="form-control" id="complaint_type" >
@@ -41,16 +41,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 
 	<!-- <div class="col-md-3 mb-3">
- 	<select class="form-control" id="classification" >
-    	<option value="">Select Classification</option>
-        <?php
-        	$classifications = classifications();
-        	foreach ($classifications as $key => $value) {
-        		echo '<option value="'.$key.'">'.$key.' - '.$value.'</option>';
-        	}
-        ?>
-    </select> -->
-</div>
+	 	<select class="form-control" id="classification" >
+	    	<option value="">Select Classification</option>
+	        <?php
+	        	$classifications = classifications();
+	        	foreach ($classifications as $key => $value) {
+	        		echo '<option value="'.$key.'">'.$key.' - '.$value.'</option>';
+	        	}
+	        ?>
+	    </select>
+	</div> -->
 
 	<div class="col-md-12"><button class="btn btn-primary float-right" id="search_filter">Search</button></div>
 </div>
@@ -65,9 +65,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <th scope="col">Sr. No.</th>
 <th scope="col">Ticket No.</th>
-<th scope="col">GA Number</th>
+<!-- <th scope="col">GA Number</th> -->
 <th scope="col">Complaint Type</th>
-<th scope="col">Classification</th>
+<!-- <th scope="col">Classification</th> -->
 <th scope="col">Created Date</th>
 <th scope="col">Action</th>
 </tr>
@@ -121,10 +121,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        },
 			       data: function ( d ) {
 				        return $.extend( {}, d, {
-				           "ga_no": 	$("#ga_no").val().toLowerCase(),
+				           //"ga_no": 	$("#ga_no").val().toLowerCase(),
 				           "ticket_no": $("#ticket_no").val().toLowerCase(),
 				           "complaint_type": $('#complaint_type').find(':selected').val(),
-				           "classification": $("#classification").val(),
+				           //"classification": $("#classification").val(),
 				        } );
 				    }
 			    },
@@ -136,9 +136,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					      }
 					    },
 	                    { data: 'ticket_no' },
-	                    { data: 'ga_no' },
+	                    //{ data: 'ga_no' },
 	                    { data: 'complaint_type' },
-	                    { data: 'classification' },
+	                    //{ data: 'classification' },
 	                    { data: 'created_at' },
 	                    {
 					      "render": function(data, type, full, meta) {
@@ -160,10 +160,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     		e.preventDefault();
     		$url = $(this).attr('href');
     		var params = { 
-    			ga_no : $("#ga_no").val().toLowerCase(), 
+    			//ga_no : $("#ga_no").val().toLowerCase(), 
     			ticket_no : $("#ticket_no").val().toLowerCase(),
     			complaint_type : $('#complaint_type').find(':selected').val(),
-    			classification : $("#classification").val(),
+    			//classification : $("#classification").val(),
     		};
 
     		$url = $url+'?'+$.param( params );

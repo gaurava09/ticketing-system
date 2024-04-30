@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <th scope="col">Sr. No.</th>
 <th scope="col">Company Name</th>
-<th scope="col">Domain</th>
+<!-- <th scope="col">Domain</th> -->
 <th scope="col">Location</th>
 <th scope="col">Status</th>
 <th scope="col">Created Date</th>
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    },
 
 	                    { data: 'name' },
-	                    { data: 'domain' },
+	                    //{ data: 'domain' },
 	                    { data: 'location' },
 	                     {
 					      "render": function(data, type, full, meta) {

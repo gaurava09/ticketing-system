@@ -263,7 +263,7 @@ function complaint_status_list($flag=''){
 
   if($flag){
     return array(
-          '0' => 'Delete',
+          //'0' => 'Delete',
           '1' => 'Complete',
           '2' => 'Open',
           '3' => 'Ongoing',
@@ -271,7 +271,7 @@ function complaint_status_list($flag=''){
         );
   }else{
     return array(
-      '0' => 'Deleted',
+      //'0' => 'Deleted',
       '1' => 'Completed',
       '2' => 'Open',
       '3' => 'Ongoing',
@@ -428,4 +428,16 @@ function esc_sql($text)
 function clean_cell_formula($string){
     $string = ltrim(trim($string), "=+-@");
     return $string;
+}
+
+function filter_unique_ticket_no($array) {
+    $seen = [];
+    return array_filter($array, function($item) use (&$seen) {
+        if (isset($seen[$item['ticket_no']])) {
+            return false;
+        } else {
+            $seen[$item['ticket_no']] = true;
+            return true;
+        }
+    });
 }

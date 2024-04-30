@@ -18,7 +18,6 @@ class Company extends My_Controller
         $data = [];
         $data['template']   = 'company/company_list';
         $data['title']      = "Company List";
-        $data['data']       = '';
         $this->load->view('default', $data);
     }
 
@@ -64,9 +63,14 @@ class Company extends My_Controller
 
     public function create() {
         $data = [];
+        $roles = ['admin', 'employee']; // Add the roles you want to retrieve
+        $admin = $this->User_model->get_users('', '*', '', '', '', '', $roles);
+        // echo "<pre>";
+        // print_r($admin);
+        // exit;
+        $data['data']       = $admin;
         $data['template']   = 'company/company_add';
         $data['title']      = "Add Company";
-        $data['data']       = '';
         $this->load->view('default', $data);
     }
 
@@ -74,19 +78,19 @@ class Company extends My_Controller
 
         $this->form_validation->set_rules('name', 'Name', 'required|is_unique[company.name]');
 
-        $this->form_validation->set_rules('domain', 'Domain', array(
-            'required',
-            array(
-                'domain_callable',
-                function($str)
-                {
-                    return true;
-                }
-            ),
-        ));
+        // $this->form_validation->set_rules('domain', 'Domain', array(
+        //     'required',
+        //     array(
+        //         'domain_callable',
+        //         function($str)
+        //         {
+        //             return true;
+        //         }
+        //     ),
+        // ));
 
         $this->form_validation->set_rules('location', 'Location', array('required'));
-        $this->form_validation->set_message('domain_callable', 'Invalid domain');
+        //$this->form_validation->set_message('domain_callable', 'Invalid domain');
 
         if ($this->form_validation->run() == FALSE)
         {   
@@ -94,19 +98,24 @@ class Company extends My_Controller
         }
 
         $name                   =  trim($this->input->post('name',TRUE));
-        $domain                 =  trim($this->input->post('domain',TRUE));
+        //$domain                 =  trim($this->input->post('domain',TRUE));
         $location               =  trim($this->input->post('location',TRUE));
-        
-        $isInvalid = $this->validateDomain($domain);
-        if($isInvalid){
-            sendResponse(0, $isInvalid);
-        }
+        $employee               =  $this->input->post('Employee_add');
+        // echo "<pre>";
+        // print_r($employee_comma);
+        // exit;
+        $employee_comma = implode(",", $employee);
+        // $isInvalid = $this->validateDomain($domain);
+        // if($isInvalid){
+        //     sendResponse(0, $isInvalid);
+        // }
 
         //Store
         $data = [];
         $data['name']       = $name;
-        $data['domain']     = $domain;
+        //$data['domain']     = $domain;
         $data['location']   = $location;
+        $data['employees']   = $employee_comma;
         $data['status']     = 1;
         $data['created_by'] = $this->userid;
         $data['created_at'] = getDt();
@@ -128,10 +137,24 @@ class Company extends My_Controller
             $this->sendFlashMsg(0,'Company data not found', 'company');
         }
 
+        $employees_array = explode(",", $company['employees']);
+        $admin = $this->User_model->get_users('', '*', '', '', '', '', '',$employees_array);
+       
+        $first_names = '';
+        foreach ($admin as $user) {
+            $first_names .= $user['first_name'].' '.$user['last_name'].' ['.$user['id'].']('.$user['role']. '), ';
+        }
+
+        $first_names = rtrim($first_names, ', ');
+
         $data = [];
         $data['template']   = 'company/company_view';
         $data['title']      = "View Company";
         $data['data']       = $company;
+        $data['employees_array'] = $first_names;
+        // echo "<pre>";
+        // print_r($data);
+        // exit;
         $this->load->view('default', $data);
     }   
 
@@ -140,11 +163,42 @@ class Company extends My_Controller
         if(!$company){
             $this->sendFlashMsg(0,'Company data not found', 'company');
         }
-        
+        $employees_array = explode(",", $company['employees']);
+        $admin = $this->User_model->get_users('', '*', '', '', '', '', '',$employees_array);
+       
+        $first_names = '';
+        foreach ($admin as $user) {
+            $first_names .= $user['first_name'].' '.$user['last_name'].' ['.$user['id'].']('.$user['role']. '), ';
+        }
+
+        $first_names = rtrim($first_names, ', ');
+
+        $roles = ['admin', 'employee']; // Add the roles you want to retrieve
+        $admin = $this->User_model->get_users('', '*', '', '', '', '', $roles);
+        // echo "<pre>";
+        // print_r($admin);
+        // echo "<pre>";
+        // print_r($company);
+        // exit;
+        //$data['data'] = $admin;
+        //dd($company);
+
+        $employeeIds = explode(',', $company['employees']);
+
+        // Filter array1 to get only the employees whose IDs are in the $employeeIds array
+        $matchedEmployees = array_filter($admin, function($employee) use ($employeeIds) {
+            return !in_array($employee['id'], $employeeIds);
+        });
+        // echo "<pre>";
+        // print_r($matchedEmployees);
+        // exit;
         $data = [];
         $data['template']   = 'company/company_edit';
         $data['title']      = "Edit Company";
         $data['data']       = $company;
+        $data['admin']       = $matchedEmployees;
+        $data['first_names'] = $first_names;
+        //dd($data);
         $this->load->view('default', $data);
     }   
 
@@ -157,7 +211,7 @@ class Company extends My_Controller
         $this->form_validation->set_rules('name', 'Name', 'required|is_unique_except[company.name.'.$companyId.']', array('is_unique_except' =>'Company name must be unique.'));
 
 
-        $this->form_validation->set_rules('domain', 'Domain',  array('required') );
+        //$this->form_validation->set_rules('domain', 'Domain',  array('required') );
         $this->form_validation->set_rules('location', 'Location',  array('required') );
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[0,1]');
 
@@ -169,22 +223,27 @@ class Company extends My_Controller
 
 
         $name                   =  trim($this->input->post('name',TRUE));
-        $domain                 =  trim($this->input->post('domain',TRUE));
+        //$domain                 =  trim($this->input->post('domain',TRUE));
         $location               =  trim($this->input->post('location',TRUE));
         $status                 =  trim($this->input->post('status',TRUE));
-
-        $isInvalid = $this->validateDomain($domain);
-        if($isInvalid){
-            sendResponse(0, $isInvalid);
-        }
+        $employee               =  $this->input->post('Employee_add');
+        $already_emp               =  $this->input->post('already_emp');
+        // $isInvalid = $this->validateDomain($domain);
+        // if($isInvalid){
+        //     sendResponse(0, $isInvalid);
+        // }
         //end validation
-        
-        
+        $added_emp = $already_emp;
+        if ($employee[0] != '') {
+            $employee_comma = implode(",", $employee);
+            $added_emp = $employee_comma.','.$already_emp;
+        }
         //Store
         $data = [];
         $data['name']       = $name;
-        $data['domain']     = $domain;
+        //$data['domain']     = $domain;
         $data['location']   = $location;
+        $data['employees']  = $added_emp;
         $data['status']     = $status;
         $data['updated_by'] = $this->userid;
         $data['created_at'] = getDt();
@@ -201,7 +260,7 @@ class Company extends My_Controller
     }//end store dept
 
 
-    private function validateDomain($domain){
+    /*private function validateDomain($domain){
 
         $error = '';
         if (strpos($domain, 'https://') !== false || strpos($domain, 'http://') !== false ) {
@@ -230,7 +289,7 @@ class Company extends My_Controller
         }
 
         return $error;
-    }
+    }*/
 
 
 }

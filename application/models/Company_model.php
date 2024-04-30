@@ -22,7 +22,7 @@ class Company_model extends CI_Model {
        return $this->db->count_all_results($this->table);
     }
 
-    public function get_all_company($whereArr = '',$column="*",$startLimit ='', $endLimit ='', $likeArr ='',$wherein ='')
+    public function get_all_company($whereArr = '',$column="*",$startLimit ='', $endLimit ='', $likeArr ='',$wherein ='',$customWhere = '')
     {   
         $result = array();
 
@@ -38,11 +38,15 @@ class Company_model extends CI_Model {
                 $this->db->like($key,$value);
             }
         }
-
+        //dd($wherein);
         if($wherein){
             foreach ($wherein as $key => $value) {
                 $this->db->where_in($key,$value);
             }
+        }
+
+        if ($customWhere) {
+            $this->db->where($customWhere);
         }
 
         // $this->db->order_by("status", "desc");

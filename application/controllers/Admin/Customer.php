@@ -115,11 +115,11 @@ class Customer extends My_Controller
         	sendResponse(0, validation_errors());
         }
 
-        $valid = $this->validDomain($this->input->post('company',TRUE),$this->input->post('email',TRUE), 1);
+        //$valid = $this->validDomain($this->input->post('company',TRUE),$this->input->post('email',TRUE), 1);
 
-        if($valid['status'] == 0){
-        	sendResponse(0, $valid['message']);
-        }
+        // if($valid['status'] == 0){
+        // 	sendResponse(0, $valid['message']);
+        // }
         //Store
         $password = trim($this->input->post('password',TRUE));
 
@@ -204,11 +204,11 @@ class Customer extends My_Controller
         	sendResponse(0, validation_errors());
         }
 
-        $valid = $this->validDomain($this->input->post('company',TRUE),$this->input->post('email',TRUE), 1);
+        //$valid = $this->validDomain($this->input->post('company',TRUE),$this->input->post('email',TRUE), 1);
 
-        if($valid['status'] == 0){
-        	sendResponse(0, $valid['message']);
-        }
+        // if($valid['status'] == 0){
+        // 	sendResponse(0, $valid['message']);
+        // }
         //Store
         
         $data = [];

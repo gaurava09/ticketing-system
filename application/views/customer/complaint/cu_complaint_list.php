@@ -157,16 +157,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	        var postdata = {};
 	        var params = '';
 
-	        $ga_no = $.trim($('#ga_no').val());
+	        //$ga_no = $.trim($('#ga_no').val());
 	        $ticket_no = $.trim($('#ticket_no').val());
 	        $cust_equi_no = $.trim($('#cust_equi_no').val());
 	        $type = $.trim($('#complaint_type').find(':selected').val());
 	        $status = $.trim($('#status').find(':selected').val());
 
-	        if($ga_no){
-	          postdata.ga_no = $ga_no;
-	          params += 'ga_no='+$ga_no+'&';
-	        }
+	        // if($ga_no){
+	        //   postdata.ga_no = $ga_no;
+	        //   params += 'ga_no='+$ga_no+'&';
+	        // }
 	        if($ticket_no){
 	          postdata.ticket_no = $ticket_no;
 	          params += 'ticket_no='+$ticket_no+'&';
@@ -221,7 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                        $dataList.row.add( [
 	                            (i+1),
 	                            v.ticket_no,
-	                            v.ga_no,
+	                            //v.ga_no,
 	                            v.complaint_type,
 	                            v.created_at,
 	                            $statusHtml,

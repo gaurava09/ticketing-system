@@ -9,7 +9,7 @@ $complaint_status_list = complaint_status_list();
 <div class="float-left breadcrumb"><h1 class="mr-2">Complaint Summary</h1></div>
 <div class="float-right">
   <?php
-  if($this->role =='admin' && $complaint['feedback'] == 1){
+  if($this->role =='admin' || $this->role == 'super_admin' && $complaint['feedback'] == 1){
         echo '<a class="btn btn-primary" href="'.site_url('feedback/'.$complaint['id']).'">View feedback</a>';
     }
   ?>
@@ -127,16 +127,16 @@ if(isset($project['warranty_till']) && $project['warranty_till'] != '' ){
 
    if( $complaint_type_key == 1){ ?>
 
-    <div class="col-md-6">   
+    <!-- <div class="col-md-6">   
       <div class="row">
       <div class="col-md-4"><p><b>Purchase order no:</b></p> </div>  
       <div class="col-md-8"><p><?php echo $complaint['order_no']; ?></p></div>
       </div>
-    </div>
+    </div> -->
   <?php  } ?>
 
 <?php  if( $complaint_type_key == 1 || $complaint_type_key == 3){ ?>
-    <div class="col-md-6">   
+    <!-- <div class="col-md-6">   
       <div class="row">
       <div class="col-md-4"><p><b>Visit From Date:</b></p> </div>  
       <div class="col-md-8"><p><?php echo custDate($complaint['from_date']); ?></p></div>
@@ -148,7 +148,7 @@ if(isset($project['warranty_till']) && $project['warranty_till'] != '' ){
       <div class="col-md-4"><p><b>Visit To Date:</b></p> </div>  
       <div class="col-md-8"><p><?php echo custDate($complaint['to_date']); ?></p></div>
       </div>
-    </div>
+    </div> -->
 
 <?php  }
   else if($complaint_type_key == 2 && $complaint['files']){ ?>

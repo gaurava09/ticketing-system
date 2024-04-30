@@ -28,18 +28,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row">
 
-<div class="col-md-3 form-group mb-3">
+<!-- <div class="col-md-3 form-group mb-3">
 <label for=" ">GA No.</label>
 <input class="form-control"  type="text" placeholder="GA No." value="<?php echo ps($project,'ga_no'); ?>" readonly="" />
-</div>
+</div> -->
 
 
-<div class="col-md-3 form-group mb-3">
+<!-- <div class="col-md-3 form-group mb-3">
 <label for=" ">Equipment</label>
 <input class="form-control"  type="text" placeholder="Equipment" value="<?php echo ps($project,'equipment_name'); ?>" readonly="" />
-</div>
+</div> -->
 
-<?php
+<!-- <?php
 $period_class = 'd-none';
 if($complaint['complaint_type'] == 1) {
     $period_class = '';
@@ -48,21 +48,21 @@ if($complaint['complaint_type'] == 1) {
 <div class="col-md-3 form-group mb-3 <?php echo $period_class; ?>" >
 <label for=" ">Visit Period</label>
 <input class="form-control" id="period" type="text" placeholder="From To" name="period" value="<?php echo $period; ?>" readonly />
-</div>
+</div> -->
 
 
-<div class="col-md-3 form-group mb-3">
-<label for=" ">MTC Representative Name</label>
+<!-- <div class="col-md-3 form-group mb-3">
+<label for=" ">Name</label>
 <?php
 if(!$representative){
 $representative = 'Admin';
 }
 ?>
 <input class="form-control" type="text" placeholder="" name="name" value="<?php echo $representative; ?>" readonly />
-</div>
+</div> -->
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>1) Was the visit timing suitable to your requirement?</b></label>
@@ -86,11 +86,11 @@ $representative = 'Admin';
 <label class="form-check-label ml-1" for="gridRadios1">NA</label></div>
 </div> 
 
-</div></div></div></div>  
+</div></div></div></div>   -->
             
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>2) Feedback on Engineer Competencies</b></label>
@@ -156,11 +156,11 @@ $representative = 'Admin';
 </div>    
 </div></div>
 </div>
-</div>
+</div> -->
 
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>3) Feedback on Equipment Performance</b></label>
@@ -197,14 +197,14 @@ $representative = 'Admin';
 </div>    
 </div>    
 </div></div>
-</div>
+</div> -->
 
 
 
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>4) Any Suggestion for Improvement in Service</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>1) Any Suggestion for Improvement in Service</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12 "><textarea class="form-control" name="suggestion"></textarea></div>
@@ -214,7 +214,7 @@ $representative = 'Admin';
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>5) Comments</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>2) Comments</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12"><textarea class="form-control" name="comment"></textarea></div>
@@ -224,7 +224,7 @@ $representative = 'Admin';
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>6) Please rate us on the scale of 1-10 for the service provided.</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>3) Please rate us on the scale of 1-10 for the service provided.</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12">
@@ -276,26 +276,26 @@ $representative = 'Admin';
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#period").flatpickr(
-		{ 	mode: "range",
-			// minDate: 'today',
-			minDate: new Date().fp_incr(1),
-			maxDate: new Date().fp_incr(60) 
- 		}
-	);
+	// $("#period").flatpickr(
+	// 	{ 	mode: "range",
+	// 		// minDate: 'today',
+	// 		minDate: new Date().fp_incr(1),
+	// 		maxDate: new Date().fp_incr(60) 
+ // 		}
+	// );
 
 	$('#feedbackForm').validate({
         ignore: [],
         // debug: true,
         rules: {
-            period: {required: true},
-            name: {required: true},
-            suitable_time: {required: true},
-            tech_knowledge: {required: true,digits: true},
-            comm_skill: {required: true,digits: true},
-            punctuality: {required: true,digits: true},
-            safety: {required: true,digits: true},
-            equipment_performance: {required: true,digits: true},
+            //period: {required: true},
+            //name: {required: true},
+            //suitable_time: {required: true},
+            //tech_knowledge: {required: true,digits: true},
+            //comm_skill: {required: true,digits: true},
+            //punctuality: {required: true,digits: true},
+            //safety: {required: true,digits: true},
+            //equipment_performance: {required: true,digits: true},
             
 
             suggestion: {required: true},

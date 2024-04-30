@@ -28,31 +28,31 @@ $ratings = json_decode($feedback['rating'],true);
 
 <div class="row">
 
-<div class="col-md-3 form-group mb-3">
+<!-- <div class="col-md-3 form-group mb-3">
 <label for=" ">GA No.</label>
 <input class="form-control"  type="text" placeholder="GA No." value="<?php echo ps($project,'ga_no'); ?>" readonly="" />
-</div>
+</div> -->
 
 
-<div class="col-md-3 form-group mb-3">
+<!-- <div class="col-md-3 form-group mb-3">
 <label for=" ">Equipment</label>
 <input class="form-control"  type="text" placeholder="Equipment" value="<?php echo ps($project,'equipment_name'); ?>" readonly="" />
-</div>
+</div> -->
 
-<?php if($complaint['complaint_type'] == 1) { ?>
+<!-- <?php if($complaint['complaint_type'] == 1) { ?>
 <div class="col-md-3 form-group mb-3">
 <label for=" ">Visit Period</label>
 <input class="form-control" id="period" type="text" placeholder="From To" value="<?php echo $feedback['period']; ?>" name="period"  readonly="" />
 </div>
-<?php } ?>
+<?php } ?> -->
 
-<div class="col-md-3 form-group mb-3">
+<!-- <div class="col-md-3 form-group mb-3">
 <label for=" ">EquipMTC Representative Name</label>
 <input class="form-control" type="text" value="<?php echo $feedback['representative_name']; ?>" name="name"  readonly=""/>
-</div>
+</div> -->
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>1) Was the visit timing suitable to your requirement?</b></label>
@@ -76,11 +76,11 @@ $ratings = json_decode($feedback['rating'],true);
 <label class="form-check-label ml-1" for="gridRadios2">NA</label></div>
 </div>
 
-</div></div></div></div>  
+</div></div></div></div>  --> 
             
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>2) Feedback on Engineer Competencies</b></label>
@@ -151,11 +151,11 @@ $ratings = json_decode($feedback['rating'],true);
 </div>    
 </div></div>
 </div>
-</div>
+</div> -->
 
 
 
-<div class="col-md-12 mt-2 mb-2">  
+<!-- <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
 <div class="col-md-4 form-group mb-3">
 <label for=" "><b>3) Feedback on Equipment Performance</b></label>
@@ -193,14 +193,14 @@ $ratings = json_decode($feedback['rating'],true);
 </div>    
 </div>    
 </div></div>
-</div>
+</div> -->
 
 
 
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>4) Any Suggestion for Improvement in Service</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>1) Any Suggestion for Improvement in Service</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12 "><textarea class="form-control" name="suggestion" readonly=""><?php echo $feedback['suggestion']; ?></textarea></div>
@@ -210,7 +210,7 @@ $ratings = json_decode($feedback['rating'],true);
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>5) Comments</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>2) Comments</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12"><textarea class="form-control" name="comment" readonly=""><?php echo $feedback['comment']; ?></textarea></div>
@@ -220,7 +220,7 @@ $ratings = json_decode($feedback['rating'],true);
 
 <div class="col-md-12 mt-2 mb-2">  
 <div class="row">    
-<div class="col-md-4 form-group mb-3"><label for=" "><b>6) Please rate us on the scale of 1-10 for the service provided.</b></label></div>
+<div class="col-md-4 form-group mb-3"><label for=" "><b>3) Please rate us on the scale of 1-10 for the service provided.</b></label></div>
 <div class="col-md-8 form-group mb-3">
 <div class="row">
 <div class="col-12">

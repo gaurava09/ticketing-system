@@ -15,16 +15,16 @@ $(document).ready(function(){
 
   $('.selectType').change(function(){
         var val  = this.value;
-        $('#assignForm, #remarkForm').addClass('d-none');
+        $('#assignForm, #remarkForm, #remarkForm_emp').addClass('d-none');
         if(val == 1){
           $('#assignForm').removeClass('d-none');
         }
         else if(val == 2){
           $('#remarkForm').removeClass('d-none');
         }
-        /*else if(val == 3){
-          $('#classForm').removeClass('d-none');
-        }*/
+        else if(val == 4){
+          $('#remarkForm_emp').removeClass('d-none');
+        }
   });
 
   $('.add_assign_div').click(function(e){
@@ -205,6 +205,67 @@ $(document).ready(function(){
             var formData = new FormData(form);
             
             $button = $('#remarkForm_submit');
+            showLoading($button);
+
+            $.ajax({
+                type: 'post',
+                url: $(form).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function($res) {
+         
+                    if($res.status == 1){
+                      window.location.href = "<?php echo site_url('complaint/'.$complaint['id'])?>";
+                      return false;
+                    }
+                    else{
+                        showError($res.message);
+                    }
+                    stopLoading();
+                },
+                error: function(error, textStatus, errorMessage) {
+                    showError('Request could not be completed');
+                    stopLoading();
+                }             
+            });
+        }
+    }); //end form validate
+
+    $('#remarkForm_emp').validate({
+        ignore: [],
+        // debug: true,
+        rules: {
+            complaint_id: {required: true},
+            remark: {required: true},
+            status: {required: true},
+            visit_date: {required: false},
+            mom_doc: {
+                required: false,
+                extension: "jpg,jpeg,png,pdf,xlsx,doc,docx",
+                filesize: 1, //1MB
+            },
+        },
+        messages: {
+
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        },
+
+        submitHandler: function(form) {
+          $('.errors').html('');
+            var formData = new FormData(form);
+            
+            $button = $('#remarkForm_emp_submit');
             showLoading($button);
 
             $.ajax({

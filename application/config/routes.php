@@ -161,6 +161,7 @@ $route['complaint/(:num)/edit']['get'] 		= 'Admin/AdComplaint/edit/$1';
 $route['complaint/(:num)/update']['post'] 	= 'Admin/AdComplaint/update/$1';
 $route['complaint/assign']['post'] 			= 'Admin/AdComplaint/assign';
 $route['complaint/remark']['post'] 			= 'Admin/AdComplaint/remark';
+$route['complaint/remarkEmp']['post'] 		= 'Admin/AdComplaint/remarkEmp';
 $route['complaint/solution']['post'] 		= 'Admin/AdComplaint/solution';
 $route['complaint/classification']['post'] 	= 'Admin/AdComplaint/classification';
 

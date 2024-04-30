@@ -337,6 +337,7 @@ class CuComplaint extends My_Controller
 		$data['email_cc'] = implode(",", $email_arr);
 		$data['customer_id'] = $this->userid;
 		$data['status'] = 2;
+		$data['created_by'] = 'c_'.$this->userid;
 		$data['created_at'] = getDt();
 
 		$complaint_id = $this->Complaint_model->add_complaint($data);
@@ -412,11 +413,11 @@ class CuComplaint extends My_Controller
 
 		//admin mail
 		if($admin){
-			$admSubject = 'A New Complaint Has Been Registered.'.ticketText($ticket_no);
+			$admSubject = 'Complaint Type - '.$data['complaint_type'].' A New Complaint Has Been Registered.'.ticketText($ticket_no);
 			$admMsg 	= "
 				Hello ".ucfirst($admin['first_name']).", <br><br>
 
-				We've received a complaint by the customer (GA no.".$data['ga_no'].")  (Ticket no.".$ticket_no.").<br><br>
+				We've received a complaint by the customer (Ticket no.".$ticket_no.").<br><br>
 
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
@@ -429,7 +430,7 @@ class CuComplaint extends My_Controller
 
 		//customer mail
 		if($customer){
-			$custSubject = 'Complaint / Service Request Generated Successfully - Ticket No. '.$ticket_no;
+			$custSubject = 'Complaint Type - '.$data['complaint_type'].' Request Generated Successfully - Ticket No. '.$ticket_no;
 			$custMsg 	= "
 				Hello ".ucfirst($customer['first_name']).", <br><br>
 
@@ -471,32 +472,43 @@ class CuComplaint extends My_Controller
 		$department = $this->Department_model->get_departments([],'id,name,status');
 
 		$history = $this->ComplaintHistory_model->get_all_complaint_history(['complaint_id' =>$complaintId]);
+		//d($history);
 		if($history){
 			foreach ($history as $key => $value) {
-
-				if($value['assigned_by'] == 'employee'){
-					unset($history[$key]);
-					continue;
+				if ($value['emp_id'] != 0) {
+					$u_data = $this->User_model->get_user(['id' => $value['emp_id']]);
+				}else{
+					$u_data['role'] = 'admin';
 				}
-
-				foreach ($department as $k => $dept) {
-					if($value['dept_id'] == $dept['id']){
-					 	$history[$key]['dept_name'] = $dept['name'];
+				//d($u_data['role']);
+				if($u_data['role'] != 'employee') {
+					if($value['assigned_by'] == 'employee'){
+						unset($history[$key]);
+						continue;
 					}
+
+					foreach ($department as $k => $dept) {
+						if($value['dept_id'] == $dept['id']){
+						 	$history[$key]['dept_name'] = $dept['name'];
+						}
+					}
+
+					$empDetail = $this->User_model->get_user(['id' => $value['emp_id']], 'concat(first_name," ",last_name) as emp_name, email,mobile');
+
+					$history[$key]['emp_name'] = (isset($empDetail['emp_name'])) ? $empDetail['emp_name'] : '';
+					$history[$key]['emp_email'] = (isset($empDetail['email'])) ? $empDetail['email'] : '';
+					$history[$key]['emp_mobile'] = (isset($empDetail['mobile'])) ? $empDetail['mobile'] : '';
+
+					$convoId = $this->Chat_model->get_conversation(['user_id' => $value['emp_id'],'customer_id' => $this->userid, 'ticket_no' => $complaint['ticket_no'] ], 'id');
+
+					$history[$key]['conversation_id'] = ($convoId) ? $convoId['id'] : '';
+					$history[$key]['employee'] =  'admin';
+				}else{
+					$history[$key]['employee'] =  'employee';
 				}
-
-				$empDetail = $this->User_model->get_user(['id' => $value['emp_id']], 'concat(first_name," ",last_name) as emp_name, email,mobile');
-
-				$history[$key]['emp_name'] = (isset($empDetail['emp_name'])) ? $empDetail['emp_name'] : '';
-				$history[$key]['emp_email'] = (isset($empDetail['email'])) ? $empDetail['email'] : '';
-				$history[$key]['emp_mobile'] = (isset($empDetail['mobile'])) ? $empDetail['mobile'] : '';
-
-				$convoId = $this->Chat_model->get_conversation(['user_id' => $value['emp_id'],'customer_id' => $this->userid, 'ticket_no' => $complaint['ticket_no'] ], 'id');
-
-				$history[$key]['conversation_id'] = ($convoId) ? $convoId['id'] : '';
 			}
 		}
-
+		//dd($history);
 		//admin convo id
 		$adminConvoId = '';
 		$admin = $this->User_model->get_user(['role' => 'admin']);
@@ -526,6 +538,8 @@ class CuComplaint extends My_Controller
 		$data['department'] 	= $department;
 		$data['feedback'] 		= $feedback;
 		$data['adminConvoId'] 	= $adminConvoId;
+
+		//dd($data);
 		$this->load->view('default', $data);
 	}	
 

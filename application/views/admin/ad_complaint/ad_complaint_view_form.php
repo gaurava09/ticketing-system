@@ -1,6 +1,6 @@
 <?php 
 $can_action = 1;
-if($this->role == 'admin'){
+if($this->role == 'admin' || $this->role == 'super_admin'){
   $allowed_status = ['0','1','2','3','4'];
 }else{
   $allowed_status = ['1','3'];
@@ -55,8 +55,14 @@ if($topLevel == 1){ ?>
   <label for=" ">Action</label>
     <select class="form-control selectType" >
       <option value="">Select</option>
-      <option value="1">Assign</option>
-      <option value="2">Reply To customer</option>
+      <?php if($this->role == 'admin' || $this->role == 'super_admin'){ ?>
+        <option value="1">Assign</option>
+        <option value="2">Reply To Customer</option>
+        <option value="4">Reply To Employee</option>
+      <?php } ?>
+      <?php if($this->role == 'employee'){ ?>
+        <option value="2">Reply To Admin</option>
+      <?php } ?>
       <?php
         // if($this->role == 'admin'){
         //   echo '<option value="3">Complaint Classification</option>';
@@ -133,10 +139,10 @@ if($topLevel == 1){ ?>
 
       <?php
         // if(strtolower($complaint['complaint_type']) == 'request for engineer visit'){ ?>
-          <div class="col-md-12 form-group mb-3">
+          <!-- <div class="col-md-12 form-group mb-3">
             <label for=" ">Visit Date</label>
             <input type="text" name="visit_date" id="visit_date">
-        </div>
+        </div> -->
       <?php // }  ?>
 
       <div class="col-md-12 form-group mb-3">
@@ -190,6 +196,70 @@ if($topLevel == 1){ ?>
   </div>
 </form>
 
+
+<?php echo form_open_multipart('complaint/remarkEmp',array('id' => 'remarkForm_emp','class' => 'd-none','autocomplete' => 'off') ); ?>
+
+  <input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
+  <div class="row ">
+
+      <?php
+        // if(strtolower($complaint['complaint_type']) == 'request for engineer visit'){ ?>
+          <!-- <div class="col-md-12 form-group mb-3">
+            <label for=" ">Visit Date</label>
+            <input type="text" name="visit_date" id="visit_date">
+        </div> -->
+      <?php // }  ?>
+
+      <div class="col-md-12 form-group mb-3">
+          <label for=" ">Remark</label>
+          <textarea class="form-control" name="remark"></textarea>
+      </div>
+
+        <div class="col-md-12 form-group mb-3 mom_div">
+            <label for=" ">Upload supporting file and comment </label>
+
+            <div class="col-12 input-group inp-group ">
+                <div class="input-group-prepend delete_doc" style="cursor: pointer;">
+                    <span class="input-group-text " title="Delete">X</span>
+                </div>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input photo mom_doc" name='mom_doc'  accept="image/jpeg,image/gif,image/png,application/pdf">
+                    <label class="custom-file-label" for="photo">Choose File (jpg,jpeg,png,pdf,xlsx,doc,docx format)</label>
+                </div>
+            </div>
+
+            <div class="col-12 preview_div img_thumb " style="display: none;">
+                <img src="" class="thumbnail image_preview" />
+            </div>
+        </div>
+
+      <div class="col-md-4 form-group mb-3">
+          <label for=" ">Status</label>
+            <select class="form-control"  name="status">
+            <option value="">Select Status</option>
+            <?php
+                $status_list = complaint_status_list();
+                  foreach ($status_list as $key => $value) {
+
+                    if( in_array($key, $allowed_status)){
+                      echo '<option value="'.$key.'">'.$value.'</option>';
+                    }
+                    
+                  }
+                ?>
+          </select>
+      </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <button class="btn btn-primary" id="remarkForm_emp_submit" type="submit">Submit</button> 
+    </div>
+  </div>
+</form>
 
 <?php /* if($this->role == 'admin') { ?>
 <!-- classification -->

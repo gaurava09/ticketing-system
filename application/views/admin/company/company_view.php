@@ -38,12 +38,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 
-<div class="col-md-6">   
+<!-- <div class="col-md-6">   
 <div class="row">
 <div class="col-md-4"><p><b>Domain:</b></p> </div>  
 <div class="col-md-8"><p><?php echo $data['domain'] ; ?></p></div>
 </div>
-</div>
+</div> -->
 
 <div class="col-md-6">   
 <div class="row">
@@ -65,6 +65,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="col-md-8"><p><?php echo custDate($data['created_at']); ?></p></div>
 </div>
 </div>
+
+<?php if ($employees_array != '') { ?>
+	<div class="col-md-12">  
+	<div class="row">
+	<div class="col-md-2"><p><b>Employees: </b></p></div> 
+	<div class="col-md-10"><p><?php echo $employees_array; ?></p></div>
+	</div>
+	</div>
+<?php } ?>
+
 </div>
 
 </div>

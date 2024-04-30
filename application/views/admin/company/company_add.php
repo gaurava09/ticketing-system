@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // }else{
 	$back_url = site_url('company');
 // }
+
 ?>
 
 
@@ -33,17 +34,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row">
 
-<div class="col-md-4 form-group mb-3"><label for=" ">Name</label>
-<input class="form-control" type="text" placeholder=" " name="name" /></div>
-
-<div class="col-md-4 form-group mb-3"><label for=" ">Domain</label>
-<input class="form-control" type="text" placeholder="eg: example.com" name="domain" />
-<p>Add domain name without protocol i.e http:// or https:// and www</p>
+<div class="col-md-6 form-group mb-3"><label for=" ">Name</label>
+  <input class="form-control" type="text" placeholder=" " name="name" />
 </div>
 
-<div class="col-md-4 form-group mb-3"><label for=" ">Location</label>
-<input class="form-control" type="text" placeholder=" " name="location" /></div>
+<!-- <div class="col-md-4 form-group mb-3"><label for=" ">Domain</label>
+<input class="form-control" type="text" placeholder="eg: example.com" name="domain" />
+<p>Add domain name without protocol i.e http:// or https:// and www</p>
+</div> -->
 
+<div class="col-md-6 form-group mb-3"><label for=" ">Location</label>
+  <input class="form-control" type="text" placeholder=" " name="location" />
+</div>
+<div class="col-md-12 form-group mb-3 cc_div">
+  <label>Employees</label>
+    <div class="row cc_row">  
+        <div class="col-6 form-group">
+      <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
+      <datalist id="employees">
+        <?php  foreach ($data as $key => $value) { ?>
+          <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?> (<?php echo $value['role']  ?>)</option>
+        <?php } ?>
+      </datalist>
+        </div>
+      <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Add add_Employee"></i></a></div>
+    </div>
+</div>
 </div>
 
 <div class="col-md-12 mt-4">
@@ -58,7 +74,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 
-
+<div class="cc_html d-none">
+    <div class="row cc_row">  
+        <div class="col-6 form-group">
+            <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
+            <datalist id="employees">
+                <?php  foreach ($data as $key => $value) { ?>
+                  <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?></option>
+                <?php } ?>
+            </datalist>
+        </div>
+        <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Remove remove_cc"></i></a></div>
+    </div>
+</div>
 <?php $this->load->view('common/footer');  ?>
 
 <script src="<?php echo base_url('assets/libs/jquery-validation/jquery.validate.min.js'); ?>"></script>
@@ -66,12 +94,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url('assets/custom.js'); ?>"></script>
 
 <script type="text/javascript">
+  $('.add_Employee').click(function(e) {
+    e.preventDefault();
+
+    var allValid = true;
+    var employeeData = []; // Array to store employee data
+
+    // Check all existing input fields
+    $('.cc_div .cc_row input[type="text"]').each(function() {
+        var value = $(this).val().trim();
+
+        if (value === '') {
+            alert('Please enter a value for all employee fields.');
+            allValid = false;
+            return false; // Exit the loop early
+        }
+
+        // Check for duplicate data
+        if (employeeData.indexOf(value) !== -1) {
+            alert('Duplicate data found.');
+            allValid = false;
+            return false; // Exit the loop early
+        }
+
+        // Store the field value
+        employeeData.push(value);
+    });
+
+    // If all existing fields are valid, proceed to add a new one
+    if (allValid) {
+        var $html = $('.cc_html .cc_row').clone();
+        if ($('.cc_div .cc_row').length < 9) {
+            $('.cc_div').append($html);
+        } else {
+            alert('You cannot add more than 10 employees.');
+        }
+    }
+  });
+
+
+  $(document).on('click','.cc_div .remove_cc', function(e) {
+      e.preventDefault();
+      
+      if($('.cc_div .cc_row').length > 1){
+         $(this).parents('.cc_row').remove();
+      }else{
+         // alert('you can not assign more than 4 at a time');
+      }
+  });
 	$('#CompanyForm').validate({
         ignore: [],
         // debug: true,
         rules: {
             name: {required: true},
-            domain: {required: true},
+            //domain: {required: true},
             location: {required: true},
         },
         messages: {

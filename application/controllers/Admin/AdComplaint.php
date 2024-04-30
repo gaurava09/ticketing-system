@@ -50,12 +50,13 @@ class AdComplaint extends My_Controller
 	}
 
 	public function list() {
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$params = $this->searchParam(['status','ticket_no','ga_no','complaint_type','classification','feedback']);
 
 		} else{
 			$params = $this->searchParam(['c.status' => 'status','ticket_no','ga_no','complaint_type','classification','action']);
 		}	
+		//dd($params);
 
 		$draw 		= $params['draw'];
 		$startrow 	= $params['startrow'];
@@ -64,8 +65,7 @@ class AdComplaint extends My_Controller
 		$likeArr 	= $params['like'];
 
 		$action_taken = '';
-		
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$this->load->model('Feedback_model');
 
 			## Total number of records without filtering
@@ -76,18 +76,32 @@ class AdComplaint extends My_Controller
 			$allres  = $this->Complaint_model->count($whereArr,$likeArr);
 			$totalRecordwithFilter = $allres;
 
-			$columns = 'id,ticket_no,ga_no,complaint_type,customer_id,status,created_at,classification,feedback';
+			$columns = 'id,ticket_no,ga_no,complaint_type,customer_id,status,created_by,created_at,classification,feedback';
 			$list = $this->Complaint_model->get_complaints($whereArr,$columns,$startrow,$rowperpage , $likeArr);
 		}else{
-			$whereArr['h.emp_id'] = $this->userid;
-            $whereArr['h.type'] = 'assign';
+			$whereArr_a['h.emp_id'] = $this->userid;
+            $whereArr_a['h.type'] = 'assign';
             $assignWhere = ['h.emp_id' => $this->userid,'h.type' => 'assign'];
 
-            $columns = 'c.id,c.ticket_no,c.ga_no,c.complaint_type,c.customer_id,c.status, c.created_at,classification,feedback';
-            $list = $this->Complaint_model->get_complaints_for_emp_new($whereArr,$columns,$startrow,$rowperpage , $likeArr);
+            $columns1 = 'c.id,c.ticket_no,c.ga_no,c.complaint_type,c.customer_id,c.status,c.created_by,c.created_at,classification,feedback';
+            $list1 = $this->Complaint_model->get_complaints_for_emp_new($whereArr_a,$columns1,$startrow,$rowperpage , $likeArr);
             // dd($this->pq());
+            if (!empty($list1)) {
+			    foreach ($list1 as &$item1_a) {
+			        $item1_a['assign'] = 1;
+			    }
+			}
+
+            $columns2 = 'id,ticket_no,ga_no,complaint_type,customer_id,status,created_by,created_at,classification,feedback';
+			$list2 = $this->Complaint_model->get_complaints($whereArr,$columns2,$startrow,$rowperpage , $likeArr);
+			if (!empty($list2)) {
+			    foreach ($list2 as &$item2_a) {
+			        $item2_a['assign'] = 0;
+			    }
+			}
+
             
-            
+            $list = array_merge($list1, $list2);
             ## Total number of records without filtering
             $totalRecords = $this->Complaint_model->get_complaints_for_emp_new($assignWhere,'c.id','','', $likeArr);
             $totalRecords = count($totalRecords);
@@ -111,6 +125,11 @@ class AdComplaint extends My_Controller
 			$customer = $this->Customer_model->get_customer_details(['c.id' => $value['customer_id']]);
 
 			if($customer){
+				$company = $this->Company_model->get_company(['name' => $customer['company_name']]);
+		        if(!$company){
+		            $this->sendFlashMsg(0,'Company data not found', 'company');
+		        }
+				//d($customer['company_name']);
 				$list[$key]['company'] 	= cap($customer['company_name']);
 			}
 
@@ -185,22 +204,86 @@ class AdComplaint extends My_Controller
 			/*if($unset){
 				unset($list[$key]);
 			}*/
-			
+			//dd($value);
+			if ($value['created_by'] != '') {
+				$created_by_arr = $array = explode("_", $value['created_by']);
+			}else{
+				$created_by_arr = array();
+			}
+			//dd($created_by_arr);
+			if ($created_by_arr[0] == 'c') {
+				$whereArr 	= ['id' => $created_by_arr[1]];
+				$columns 	= 'id,first_name,last_name';
+				$customer 	= $this->Customer_model->get_customer($whereArr,$columns);
+				//dd($customer);
+				$created_by = $customer['first_name'].' '.$customer['last_name'];
+			}elseif ($created_by_arr[0] == 'sa') {
+				$whereArr 	= ['id' => $created_by_arr[1]];
+				$columns 	= 'id,first_name,last_name';
+				$superAdmin = $this->User_model->get_user($whereArr,$columns);
+				//dd($superAdmin);
+				$created_by = $superAdmin['first_name'].' '.$superAdmin['last_name'];
+				
+			} else{
+				$created_by = '';
+			}	
+			$list[$key]['created_by'] = $created_by;
 		}
-
+		//dd($list);
 		// $list = array_values($list);
 
 		/*if($action_taken){
 			$totalRecords = $totalRecordwithFilter = count($list);
 		}*/
-		// dd($list);
+		if ($this->role == 'admin' || $this->role == 'employee') {
+			$login_user = "FIND_IN_SET('".$this->userid."', employees) > 0";
+			$company_n = $this->Company_model->get_all_company('','','','', '', '',$login_user);
+			//dd($company_n);
+			if (empty($company_n)) {
+				//dd($list);
+				//$list=array();
+				//$totalRecords=0;
+				//$totalRecordwithFilter=0;
+				$company_names = [];
+				$filtered_array = array_filter($list, function($element) use ($company_names) {
+				    return isset($element['assign']) && $element['assign'] == 1 || in_array($element, $company_names);
+				});
 
-		$response = array(
-		 	"draw" 					=> intval($draw),
-		 	"totalRecords" 			=> $totalRecords,
-		 	"totalRecordwithFilter" => $totalRecordwithFilter,
-		 	"aaData" 				=> $list
-		);
+				$response = array(
+				 	"draw" 					=> intval($draw),
+				 	"totalRecords" 			=> $totalRecords,
+				 	"totalRecordwithFilter" => $totalRecordwithFilter,
+				 	"aaData" 				=> $filtered_array
+				);
+			}else{
+				//dd($list);
+				foreach ($company_n as $item) {
+				    $company_names[] = cap($item['name']);
+				}
+				//dd($list);
+				$filtered_array = array_filter($list, function($element) use ($company_names) {
+				    return in_array($element['company'], $company_names) || (isset($element['assign']) && $element['assign'] == 1);
+				});
+
+				$filtered_array = array_values(filter_unique_ticket_no($filtered_array));
+				//$filtered_array = array_values($filtered_array);
+				//$totalRecords = count($filtered_array);
+				//$totalRecordwithFilter = count($filtered_array);
+				$response = array(
+				 	"draw" 					=> intval($draw),
+				 	"totalRecords" 			=> $totalRecords,
+				 	"totalRecordwithFilter" => $totalRecordwithFilter,
+				 	"aaData" 				=> $filtered_array
+				);
+			}
+		}else{
+			$response = array(
+			 	"draw" 					=> intval($draw),
+			 	"totalRecords" 			=> $totalRecords,
+			 	"totalRecordwithFilter" => $totalRecordwithFilter,
+			 	"aaData" 				=> $list
+			);
+		}
 
 		sendResponse(1, 'success', $response);
 	}
@@ -220,30 +303,34 @@ class AdComplaint extends My_Controller
 
 		$this->load->model('Equipment_model');
 
+
+		/////////////////////////////////////////////changes for Project data not found///////////////////////////////////
 		//get ga details
-		$projects = $this->Project_model->get_projects(['status' => 1], 'ga_no,equipment_id,model',FALSE,FALSE,FALSE,FALSE, $id);
+		// $projects = $this->Project_model->get_projects(['status' => 1], 'ga_no,equipment_id,model',FALSE,FALSE,FALSE,FALSE, $id);
 
-		// dd($this->pq());
-		$list = [];
+		// // dd($this->pq());
+		// $list = [];
 
-		if($projects){
-			foreach ($projects as $key => $value) {
-				$equipment = $this->Equipment_model->get_equipment(array('id' => $value['equipment_id']), 'name,model');
-					if($equipment){
-						$list[] = array(
-						   	'value' => $value['ga_no'],
-				          	'label' => $value['ga_no'],
-				          	'equipment_name' => $equipment['name'],
-				          	'equipment_model' => $value['model'],
-						);
-					}
-			}
-		}
-		if(!$list){
-			sendResponse(0, 'Project data not found');
-		}
+		// if($projects){
+		// 	foreach ($projects as $key => $value) {
+		// 		$equipment = $this->Equipment_model->get_equipment(array('id' => $value['equipment_id']), 'name,model');
+		// 			if($equipment){
+		// 				$list[] = array(
+		// 				   	'value' => $value['ga_no'],
+		// 		          	'label' => $value['ga_no'],
+		// 		          	'equipment_name' => $equipment['name'],
+		// 		          	'equipment_model' => $value['model'],
+		// 				);
+		// 			}
+		// 	}
+		// }
+		// if(!$list){
+		// 	sendResponse(0, 'Project data not found');
+		// }
 
-		sendResponse(1, 'success', array('customers' => $customers,'projects' => $list));
+		//sendResponse(1, 'success', array('customers' => $customers,'projects' => $list));
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		sendResponse(1, 'success', array('customers' => $customers));
 	}
 	
 	public function create() {
@@ -465,7 +552,7 @@ class AdComplaint extends My_Controller
 		$data['cust_equipment_no'] = $cust_equipment_no;
 		$data['email_cc'] = implode(",", $email_arr);
 		$data['status'] = 2;
-		$data['created_by'] = $this->userid;
+		$data['created_by'] = 'sa_'.$this->userid;
 		$data['created_at'] = getDt();
 
 		$complaint_id = $this->Complaint_model->add_complaint($data);
@@ -527,7 +614,7 @@ class AdComplaint extends My_Controller
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				Tsubaki. ";
+				Ticketing. ";
 
 			$sendMail = $this->sendMail($this->email, $admSubject, $admMsg);
 		}
@@ -547,7 +634,7 @@ class AdComplaint extends My_Controller
 				We assure you of our best services at all times.<br><br>
 
 				Best Regards,<br>
-				Team Tsubaki. ";
+				Team Ticketing. ";
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
@@ -556,13 +643,13 @@ class AdComplaint extends My_Controller
 
 	public function view($complaintId) {
 
-		if($this->is_employee()){
-			$canView = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' =>$complaintId, 'emp_id' => $this->userid, 'type'=>'assign']);
+		// if($this->is_employee()){
+		// 	$canView = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' =>$complaintId, 'emp_id' => $this->userid, 'type'=>'assign']);
 
-        	if(!$canView ){
-        		$this->sendFlashMsg(0,'Complaint details not found', 'complaint');
-        	}
-		}
+  //       	if(!$canView ){
+  //       		$this->sendFlashMsg(0,'Complaint details not found', 'complaint');
+  //       	}
+		// }
 
 		$this->load->model('Files_model');
 
@@ -633,7 +720,7 @@ class AdComplaint extends My_Controller
 		}
 		// d($this->userid);
 		// dd($topLevel);
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$topLevel = 1;
 		}
 
@@ -665,7 +752,7 @@ class AdComplaint extends My_Controller
 		$this->load->model('Chat_model');
 
 		//Start validation
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
         	$assigned_by = 'admin'; 
         	$new_status = 3; //ongoing
         }else{
@@ -734,7 +821,7 @@ class AdComplaint extends My_Controller
 				sendResponse(0, 'Assign'.($key+1).' : You can not assign to yourself');
 			}
 
-			if($this->role != 'admin'){
+			if($this->role != 'admin' || $this->role == 'super_admin'){
 				if(!isset($remark[$key]) || $remark[$key] == ''){
 					sendResponse(0, 'Assign'.($key+1).' : Remark data is empty');
 				}
@@ -806,7 +893,7 @@ class AdComplaint extends My_Controller
 				There is a new complaint in the queue to be resolved from the customer (GA no. '.$complaint['ga_no'].') (Ticket no. '.$complaint['ticket_no'].') '.$product_text.'. <br><br>
 
 				Best Regards,<br>
-				Tsubaki.';
+				Ticketing.';
 
 				$mail_details[] = array(
 					'email' => $empdetails['email'],
@@ -858,7 +945,7 @@ class AdComplaint extends My_Controller
 				Please check customer support portal for further details.<br><br>
 				
 				Best Regards,<br>
-				Team Tsubaki.';
+				Team Ticketing.';
 
 				$mail_details[] = array(
 					'email' => $customer['email'],
@@ -930,7 +1017,7 @@ class AdComplaint extends My_Controller
 	public function remark(){
 		$complaint_id 	= trim($this->input->post('complaint_id',TRUE));
 		$new_status 	= trim($this->input->post('status',TRUE));
-		$visit_date 	= trim($this->input->post('visit_date',TRUE));
+		//$visit_date 	= trim($this->input->post('visit_date',TRUE));
 
 		$complaint = $this->Complaint_model->get_complaint(['id' => $complaint_id]);
 		$prev_status 	= $complaint['status'];
@@ -941,7 +1028,7 @@ class AdComplaint extends My_Controller
 		 
 
 		//Start validation
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$this->form_validation->set_rules('status', 'Status', 'in_list[0,1,2,3,4]');
 		}else{
 			$this->form_validation->set_rules('status', 'Status', 'in_list[1,3]');
@@ -949,7 +1036,7 @@ class AdComplaint extends My_Controller
 
 		$this->form_validation->set_rules('complaint_id', 'Complaint', 'required|exists[complaint.id]');
 		$this->form_validation->set_rules('remark', 'Remark', 'required');
-		$this->form_validation->set_rules('visit_date', 'Visit Date', 'date');
+		//$this->form_validation->set_rules('visit_date', 'Visit Date', 'date');
 
 		if ($this->form_validation->run() == FALSE)
         {	
@@ -1012,12 +1099,13 @@ class AdComplaint extends My_Controller
 		$data['emp_id'] 			= $this->userid;
 		$data['remark'] 			= trim($this->input->post('remark',TRUE));
 		$data['type'] 				= 'remark';
+		$data['reply_to'] 			= 'customer';
 		$data['mom_doc'] 			= $file_name;
 		$data['assigned_by'] 		= $assigned_by;
 		$data['top_dept'] 			= 1;
 		$data['prev_status'] 		= $prev_status;
 		$data['new_status'] 		= $new_status;
-		$data['visit_date'] 		= $visit_date;
+		//$data['visit_date'] 		= $visit_date;
 		$data['created_by'] 		= $this->userid;
 		$data['created_at'] 		= getDt();
 		
@@ -1036,7 +1124,7 @@ class AdComplaint extends My_Controller
 			$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Status updated successfully' ));
 
 			//complaint is closed. notify customer for feedback form
-			if($this->role == 'admin' && $new_status == 4){
+			if(($this->role == 'admin' || $this->role == 'super_admin') && $new_status == 4){
 				$this->load->model('Feedback_model');
 				$feedback = $this->Feedback_model->get_feedback(['complaint_id' => $complaint_id]);
 				if(!$feedback){
@@ -1059,11 +1147,11 @@ class AdComplaint extends My_Controller
 
 			//remark email to customer and admin[bcc]
 			// if($complaint_type == $engg_visit && $visit_date != ''){ //engg visit for all complaint
-			if($visit_date != ''){
-				$this->enggVisitMail($data,$complaint);
-			}else{
+			// if($visit_date != ''){
+			// 	$this->enggVisitMail($data,$complaint);
+			// }else{
 				$this->remarkMail($data,$complaint);
-			}
+			//}
 			
 
 			sendResponse(1,'Status updated successfully.');
@@ -1072,6 +1160,153 @@ class AdComplaint extends My_Controller
 		}
 
 	}//end remark
+
+	public function remarkEmp(){
+		$complaint_id 	= trim($this->input->post('complaint_id',TRUE));
+		$new_status 	= trim($this->input->post('status',TRUE));
+		//$visit_date 	= trim($this->input->post('visit_date',TRUE));
+
+		$complaint = $this->Complaint_model->get_complaint(['id' => $complaint_id]);
+		$prev_status 	= $complaint['status'];
+
+		$complaint_type =$complaint['complaint_type'];
+		// $complaint_type = strtolower($complaint['complaint_type']);
+		// $engg_visit 	= 'request for engineer visit';
+		 
+
+		//Start validation
+		if($this->role == 'admin' || $this->role == 'super_admin'){
+			$this->form_validation->set_rules('status', 'Status', 'in_list[0,1,2,3,4]');
+		}else{
+			$this->form_validation->set_rules('status', 'Status', 'in_list[1,3]');
+		}
+
+		$this->form_validation->set_rules('complaint_id', 'Complaint', 'required|exists[complaint.id]');
+		$this->form_validation->set_rules('remark', 'Remark', 'required');
+		//$this->form_validation->set_rules('visit_date', 'Visit Date', 'date');
+
+		if ($this->form_validation->run() == FALSE)
+        {	
+        	sendResponse(0, validation_errors());
+        }
+
+        //check if user can remark. only admin or emp assigned by admin. 
+         if($this->role == 'employee'){
+        	// $canRemark = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' =>$complaint_id, 'emp_id' => $this->userid, 'type'=>'assign','assigned_by' => 'admin','top_dept' => 1]);
+        	$canRemark = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' =>$complaint_id, 'emp_id' => $this->userid, 'type'=>'assign','top_dept' => 1]);
+
+        	if(!$canRemark ){
+        		sendResponse(0, 'You are not authorized to remark');
+        	}
+        	$assigned_by = 'admin';
+
+        	//if status closed or deleted
+			if( in_array($prev_status, [0,4])) { 
+				sendResponse(0, 'You can not perform this action.');
+			}
+         }else{
+         	$assigned_by = '';
+         }
+
+         //check mom doc
+		if(isset($_FILES['mom_doc']['name']) && $_FILES['mom_doc']['name'] != ''){
+			$this->upload_path = 'documents/admin/complaint/'.$complaint_id.'/';
+
+			$config['upload_path'] = $this->upload_path;
+	        $config['allowed_types'] = 'jpg|jpeg|png|pdf|xlsx|doc|docx';
+	        $config['max_size'] = (1*1024); //1MB
+	        $config['remove_spaces'] = TRUE;
+
+       		$file_name = 'mom-'.time().'-'.mt_rand(10000, 99999);
+			$config['file_name'] = $file_name;
+
+	        $this->load->library('upload', $config);
+
+	        if (!is_dir( $this->upload_path ))
+		    {	
+		    	mkdir( $this->upload_path , 0777, true);		        
+		    }
+
+        	if (!$this->upload->do_upload('mom_doc')) {
+	            $error = $this->upload->display_errors();
+	            sendResponse(0, $error);
+	        } 
+
+	        $image_data = $this->upload->data();
+
+	        $file_name  =  $this->upload_path.$image_data['file_name'];
+		}else{
+			$file_name = '';
+		}
+        //end validation
+		     		
+		
+		$data 						= [];
+		$data['complaint_id'] 		= $complaint_id;
+		$data['emp_id'] 			= $this->userid;
+		$data['remark'] 			= trim($this->input->post('remark',TRUE));
+		$data['type'] 				= 'remark';
+		$data['reply_to'] 			= 'employee';
+		$data['mom_doc'] 			= $file_name;
+		$data['assigned_by'] 		= $assigned_by;
+		$data['top_dept'] 			= 1;
+		$data['prev_status'] 		= $prev_status;
+		$data['new_status'] 		= $new_status;
+		//$data['visit_date'] 		= $visit_date;
+		$data['created_by'] 		= $this->userid;
+		$data['created_at'] 		= getDt();
+		
+		$insert = $this->ComplaintHistory_model->add_complaint_history($data);
+		if($insert){
+			$updateData = array('status' => $new_status, 'updated_by' => $this->userid);
+			$this->Complaint_model->update_complaint($complaint_id,$updateData);
+
+
+			//update emp action for easy retrieval. dat he performed an action
+			$this->Complaint_model->update_complaint_action(['status' => 1],[
+	                'complaint_id' => $complaint_id,
+	                'emp_id' => $this->userid
+	               ]);
+
+			$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Status updated successfully' ));
+
+			//complaint is closed. notify customer for feedback form
+			if(($this->role == 'admin' || $this->role == 'super_admin') && $new_status == 4){
+				$this->load->model('Feedback_model');
+				$feedback = $this->Feedback_model->get_feedback(['complaint_id' => $complaint_id]);
+				if(!$feedback){
+					$remark_msg = 'Please give feedback on your complaint.'.ticketText($complaint['ticket_no']);
+					$this->remarkNotification($data,$complaint,$remark_msg);
+				}
+			}
+
+			//add notification to customer
+			$remark_msg = 'There is an update on the existing complaint.'.ticketText($complaint['ticket_no']);
+			$this->remarkNotification($data,$complaint,$remark_msg);
+
+			//remark notification among team ie admin and employee
+			if($this->role == 'employee' && $new_status == 1){
+				$this->userRemarkNotification($data,$complaint,1); //notify admin also
+			}
+			else if($this->role == 'employee'){
+				$this->userRemarkNotification($data,$complaint,0); //skip admin
+			}
+
+			//remark email to customer and admin[bcc]
+			// if($complaint_type == $engg_visit && $visit_date != ''){ //engg visit for all complaint
+			// if($visit_date != ''){
+			// 	$this->enggVisitMail($data,$complaint);
+			// }else{
+				$this->remarkMail($data,$complaint);
+			//}
+			
+
+			sendResponse(1,'Status updated successfully.');
+		}else{
+			sendResponse(0,'Failed to update Ticket.');
+		}
+
+	}//end remarkEmp
 
 	private function userRemarkNotification($data,$complaint,$notify_admin = 0){
 		
@@ -1157,7 +1392,7 @@ class AdComplaint extends My_Controller
 					Please be available at the given address to assist the engineer with all the necessary information. <br><br>
 
 					Best Regards, <br>
-					Team Tsubaki. ';
+					Team Ticketing. ';
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
 
@@ -1174,7 +1409,7 @@ class AdComplaint extends My_Controller
 				Please note this down for the records. <br><br>
 
 				Best Regards, <br>
-				Team Tsubaki. ';
+				Team Ticketing. ';
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
 	}
@@ -1207,7 +1442,7 @@ class AdComplaint extends My_Controller
 				Please check customer support portal for further details. <br><br>
 
 				Best Regards, <br>
-				Team Tsubaki.';
+				Team Ticketing.';
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr,$bcc);
 		}
@@ -1357,7 +1592,7 @@ class AdComplaint extends My_Controller
 			Get in touch if there is any query.<br><br>
 
 			Best Regards,<br>
-			Tsubaki ';
+			Ticketing ';
 
 			if($assignee){
 				foreach ($assignee as $key => $value) {
@@ -1438,7 +1673,7 @@ class AdComplaint extends My_Controller
     {	
     	$this->load->model('Equipment_model');
 
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$params = $this->searchParam(['status','ticket_no','ga_no','complaint_type','classification','feedback']);
 
 		} else{
@@ -1448,7 +1683,7 @@ class AdComplaint extends My_Controller
 		$whereArr 	= $params['where'];
 		$likeArr 	= $params['like'];
 
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$columns = '*';
 			$list = $this->Complaint_model->get_complaints($whereArr,$columns,FALSE,FALSE, $likeArr);
 			/*set column names*/
@@ -1539,7 +1774,7 @@ class AdComplaint extends My_Controller
             $sheet->setCellValueByColumnAndRow($col_count++, $excel_row, $complaint_types[$row['complaint_type']]);
             $sheet->setCellValueByColumnAndRow($col_count++, $excel_row, $class_e);
 
-            if($this->role == 'admin'){
+            if($this->role == 'admin' || $this->role == 'super_admin'){
            	 	$sheet->setCellValueByColumnAndRow($col_count++, $excel_row, $feedback);
             }
 

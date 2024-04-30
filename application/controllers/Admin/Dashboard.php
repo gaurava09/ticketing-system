@@ -25,7 +25,7 @@ class Dashboard extends My_Controller
 
 
 	public function index(){
-		if($this->role == 'admin'){
+		if($this->role == 'admin' || $this->role == 'super_admin'){
 			$this->adminDashboard();
 		}
 		else if($this->role == 'employee'){

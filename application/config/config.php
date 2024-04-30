@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -127,7 +127,7 @@ if(ENVIRONMENT == 'production'){
 	define('SMTP_PASSWORD','zojeopveyeiggcit');
 }
 define('SMTP_SENDER_EMAIL','tech.agency09@gmail.com');
-define('SMTP_SENDER_NAME','TCSI-Customer Support');
+define('SMTP_SENDER_NAME','AGENCY09-Customer Support');
 
 // define('NO_REPLY_EMAIL_ID', 'CUSTOMERSUPPORT-MTC@mahindra.com');
 define('NO_REPLY_EMAIL_ID', 'tech.agency09@gmail.com');

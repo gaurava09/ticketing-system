@@ -47,7 +47,7 @@ class User_model extends CI_Model {
             return $row;
         }  
 
-        public function get_users($whereArr = '',$column="*", $startLimit ='', $endLimit ='', $likeArr ='',$wherein ='')
+        public function get_users($whereArr = '',$column="*", $startLimit ='', $endLimit ='', $likeArr ='',$wherein ='',$roles=[],$employees=[])
         {   
             $result = array();
 
@@ -56,6 +56,14 @@ class User_model extends CI_Model {
             
             if($whereArr){
                 $this->db->where($whereArr);
+            }
+
+            if ($roles) {
+                $this->db->where_in('role', $roles);
+            }
+
+            if ($employees) {
+                $this->db->where_in('id', $employees);
             }
 
             if($likeArr){

@@ -95,7 +95,7 @@ class AdAuth extends My_Controller
 					redirect('employee');
 				}*/
 				$page = $this->Pages_model->get_page(['page_type' => 'login']);
-
+				
 				$data['title'] 		= "Login";
 				$data['data'] 		= '';
 				$data['page'] 		= $page;

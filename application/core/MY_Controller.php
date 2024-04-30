@@ -30,7 +30,7 @@ class My_Controller extends CI_Controller {
 		    
 			if($this->session->userdata($this->user)){
 				$userData = $this->session->userdata($this->user);
-				// dd($userData);
+				//dd($userData);
 				$this->userid = $userData['id'];
 				$this->email = $userData['email'];
 				$this->role = $userData['role'];
@@ -146,7 +146,20 @@ class My_Controller extends CI_Controller {
 
 	public function is_admin($redirect=0,$url='/'){
 		$user = $this->session->userdata($this->user);
-		if(isset($user['role']) && $user['role'] == 'admin'){
+		if(isset($user['role']) && $user['role'] == 'super_admin'){
+			return true;
+		}
+		else{
+			if($redirect == 1 ){
+				redirect($url); die();
+			}
+			return false;
+		}		
+	}
+
+	public function is_a_admin($redirect=0,$url='/'){
+		$user = $this->session->userdata($this->user);
+		if(isset($user['role']) && $user['role'] == 'admin' || $user['role'] == 'super_admin'){
 			return true;
 		}
 		else{

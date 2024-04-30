@@ -130,12 +130,12 @@ if($complaint['status'] == 4){
 
   if( $complaint_type_key == 1){ ?>
 
-    <div class="col-md-6">   
+    <!-- <div class="col-md-6">   
       <div class="row">
       <div class="col-md-4"><p><b>Purchase order no:</b></p> </div>  
       <div class="col-md-8"><p><?php echo $complaint['order_no']; ?></p></div>
       </div>
-    </div>
+    </div> -->
   <?php  } ?>
 
 <?php  if( $complaint_type_key == 1 || $complaint_type_key == 3) { ?>
@@ -223,6 +223,7 @@ if($complaint['status'] == 4){
 if($history){
   foreach ($history as $key => $value) {
 
+      if( $value['employee'] != 'employee' && $value['reply_to'] != 'employee') {
      
       if($value['type'] == 'customer'){ 
          echo '<div class="row">
@@ -286,8 +287,9 @@ if($history){
             </div>
 
           </div>
+      <?php } ?>
       <?php }//end if remark
-
+      if( $value['employee'] != 'employee') { 
       // if($value['assigned_by'] == 'admin' && $value['type'] == 'assign'){
       if($value['top_dept'] == 1 && $value['type'] == 'assign'){
 
@@ -343,7 +345,7 @@ if($history){
         
 
       </div>
-
+    <?php } ?>
     <?php
       }//end if assign
 

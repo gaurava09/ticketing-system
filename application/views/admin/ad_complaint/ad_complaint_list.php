@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="float-right">
 		<a class="btn btn-primary export" type="button" href="<?php echo site_url('complaint/export'); ?>">Export</a>
 
-		<?php if($this->role == 'admin') { ?>
+		<?php if($this->role == 'admin' || $this->role == 'super_admin') { ?>
 			<a class="btn btn-primary" type="button" data-dismiss="modal" href="<?php echo site_url('complaint/create'); ?>"><i class="i-Add-File"></i> Add</a>
 		<?php } ?>
 		
@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </select>
 </div> -->
 
-<?php if($this->role == 'admin') { ?>
+<?php if($this->role == 'admin' || $this->role == 'super_admin') { ?>
 	<div class="col-md-3 mb-3">
  	<select class="form-control" id="feedback" >
     	<option value="">Feedback Submitted ?</option>
@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <th scope="col">Company Name</th>
 <th scope="col">Complaint Type</th>
 <!-- <th scope="col">Classification</th> -->
-<?php if($this->role == 'admin') { ?>
+<?php if($this->role == 'admin' || $this->role == 'super_admin') { ?>
 <th scope="col abc">Feedback Submitted</th>
 <?php } ?>
 
@@ -145,6 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <th scope="col abc">Action Taken</th>
 <?php } ?>
 <th scope="col">Status</th>
+<th scope="col">Created By</th>
 <th scope="col">Created Date</th>
 <th scope="col">Action</th>
 </tr>
@@ -175,19 +176,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   		var status_list =<?php echo json_encode($status_list );?>;
 
-	   	var ga_no_list =<?php echo json_encode($projects );?>;
-		$( "#ga_no" ).autocomplete({
-	      		source: ga_no_list,
-	      		 focus: function( event, ui ) {
-	                  $( "#ga_no" ).val( ui.item.value );
-	                    return false;
-	               },
-	      		select: function( event, ui ) {
-	      			console.log(ui.item);
-	      			$( "#ga_no" ).val( ui.item.value );
-	                return false;
-	            }
-	    });
+	 //   	var ga_no_list =<?php echo json_encode($projects );?>;
+		// $( "#ga_no" ).autocomplete({
+	 //      		source: ga_no_list,
+	 //      		 focus: function( event, ui ) {
+	 //                  $( "#ga_no" ).val( ui.item.value );
+	 //                    return false;
+	 //               },
+	 //      		select: function( event, ui ) {
+	 //      			console.log(ui.item);
+	 //      			$( "#ga_no" ).val( ui.item.value );
+	 //                return false;
+	 //            }
+	 //    });
 
 		$('#feedback').on('change',function(){
 			if($(this).val() == 0){
@@ -199,8 +200,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            'processing': true,
 	            "oLanguage": {'sProcessing': '<div class="dt_spinner"> <span class="spinner spinner-primary mr-3"></span></div>'},
 		        "stripeClasses": [],
-		        "lengthMenu": [10, 25, 75, 100,200],
-		        "pageLength": 10,
+		        "lengthMenu": [20, 40, 80, 100,200],
+		        "pageLength": 20,
 		        "sDom": 'lrtip',
 		        "bInfo":true,
 		        "searching": true,
@@ -214,6 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			        url: "<?php echo site_url('complaint/list') ?>",
 			        // dataSrc :'data',
 			        dataFilter: function(data){
+			        	console.log(data);
 			            var json = jQuery.parseJSON( data );
 			            json.recordsTotal = json.data.totalRecords;
 			            json.recordsFiltered = json.data.totalRecordwithFilter;
@@ -246,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    { data: 'company' },
 	                    { data: 'complaint_type' },
 	                    //{ data: 'classification' },
-	                     <?php if($this->role == 'admin') { ?>
+	                     <?php if($this->role == 'admin' || $this->role == 'super_admin') { ?>
 	                    { data: 'feedback' },
 	                     <?php } ?>
 
@@ -269,6 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					      }
 					    },
 
+	                    { data: 'created_by' },
 	                    { data: 'created_at' },
 	                    {
 					      "render": function(data, type, full, meta) {

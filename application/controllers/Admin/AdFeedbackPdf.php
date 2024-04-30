@@ -10,7 +10,7 @@ class AdFeedbackPdf extends My_Controller
 		parent::__construct();
 
 		$this->is_logged_in(1);
-		$this->is_admin(1,$this->CUST_LOGIN);
+		$this->is_a_admin(1,$this->CUST_LOGIN);
 		
 		$this->load->model('Customer_model');
 		$this->load->model('Company_model');

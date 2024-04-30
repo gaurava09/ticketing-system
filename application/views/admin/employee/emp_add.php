@@ -118,7 +118,13 @@ $back_url = site_url('employee');
         ?>
     </select>
 </div>
-
+<div class="col-md-4 form-group mb-3"><label for=" ">Role</label>
+    <select class="form-control " id="role" name="role">
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="employee">Employee</option>
+    </select>
+</div>
 
 <div class="col-md-12 mt-4">
 <button class="btn btn-primary float-right" id="submit_form" type="submit">Submit</button>    

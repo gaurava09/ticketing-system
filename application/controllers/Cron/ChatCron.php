@@ -20,7 +20,7 @@ class ChatCron extends My_Controller
 		if($result){
 			foreach ($result as $key => $value) {
 				//mail
-				$subject = 'Tsubaki : Chat Notification';
+				$subject = 'Ticketing : Chat Notification';
 
 				if($value['sender'] == 'customer'){
 					$message 	= "Hello ".cap($value['emp_name']).", <br><br>";
@@ -35,7 +35,7 @@ class ChatCron extends My_Controller
 				$message .="You have a new message. Please check customer support portal for further details.<br><br>
 
 					Best Regards,<br>
-					Tsubaki.";
+					Ticketing.";
 
 				$sendMail = $this->sendMail($to_email, $subject, $message);
 			}

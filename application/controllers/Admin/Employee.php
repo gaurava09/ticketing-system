@@ -44,9 +44,10 @@ class Employee extends My_Controller
         $whereArr   = $params['where'];
         $likeArr    = $params['like'];
 
-        $whereArr['role'] = 'employee';
+        $whereArr = '';
 
-        $wherein = [];
+        //$wherein = [];
+        $wherein = ['role' => ['employee', 'admin']];
 
         // d($likeArr);
         // dd($whereArr);
@@ -112,6 +113,9 @@ class Employee extends My_Controller
 	}
 */
 	public function create() {
+		// echo "<pre>";
+		// print_r($this->input->post);
+		// exit;
 		$department = $this->Department_model->get_departments(['status' => 1]);
 		$designation = $this->Designation_model->get_designations(['status' => 1]);
 		$phonecodes = $this->Country_model->get_phonecodes();
@@ -127,7 +131,7 @@ class Employee extends My_Controller
 	}
 
 	public function store(){
-
+		//dd($this->input->post);
 		$this->form_validation->set_rules('first_name', 'First Name', 'required|alpha');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required|alpha');
 		$this->form_validation->set_rules('emp_id', 'Employee ID', 'is_natural');
@@ -136,6 +140,7 @@ class Employee extends My_Controller
 		$this->form_validation->set_rules('mobile', 'Mobile', 'regex_match[/^[0-9]{10}$/]');
 		$this->form_validation->set_rules('designation', 'Designation', 'required|exists[designation.id]');
 		$this->form_validation->set_rules('department', 'Department', 'required|exists[department.id]');
+		$this->form_validation->set_rules('role', 'Role', 'required|alpha');
 		$this->form_validation->set_rules('country_code', 'Country code', 'required|exists[z_countries.phonecode]');
 
 		if ($this->form_validation->run() == FALSE)
@@ -144,11 +149,11 @@ class Employee extends My_Controller
         }
 
         $email = trim($this->input->post('email',TRUE));
-        
-        $split = explode("@",trim($email));
-		if(strtolower($split[1]) != $this->emp_domain){
-			sendResponse(0, 'Email id does not match with the domain');
-		}
+        //dd($email);
+  //       $split = explode("@",trim($email));
+		// if(strtolower($split[1]) != $this->emp_domain){
+		// 	sendResponse(0, 'Email id does not match with the domain');
+		// }
 
         //end validation
 
@@ -166,7 +171,7 @@ class Employee extends My_Controller
         $data['designation_id'] 		=  trim($this->input->post('designation',TRUE));
         $data['department_id'] 			=  trim($this->input->post('department',TRUE));
       	
-		$data['role'] 		= 'employee';
+		$data['role'] 		= trim($this->input->post('role',TRUE));
 		$data['status'] 	= 1;
 		$data['created_by'] = $this->userid;
 		$data['created_at'] = getDt();
@@ -183,10 +188,10 @@ class Employee extends My_Controller
 
 
 	public function view($id) {
-		$employee = $this->User_model->get_user(['id' => $id, 'role' => 'employee']);
-		if(!$employee){
-			$this->sendFlashMsg(0,'Employee data not found', 'employee');
-		}
+		$employee = $this->User_model->get_user(['id' => $id]);
+		// if(!$employee){
+		// 	$this->sendFlashMsg(0,'Employee data not found', 'employee');
+		// }
 
 		$department = $this->Department_model->get_departments();
 		$designation = $this->Designation_model->get_designations();
@@ -201,10 +206,10 @@ class Employee extends My_Controller
 	}	
 
 	public function edit($id) {
-		$employee = $this->User_model->get_user(['id' => $id,'role' => 'employee']);
-		if(!$employee){
-			$this->sendFlashMsg(0,'Employee data not found', 'employee');
-		}
+		$employee = $this->User_model->get_user(['id' => $id]);
+		// if(!$employee){
+		// 	$this->sendFlashMsg(0,'Employee data not found', 'employee');
+		// }
 		$department = $this->Department_model->get_departments(['status' => 1]);
 		$designation = $this->Designation_model->get_designations(['status' => 1]);
 		$phonecodes = $this->Country_model->get_phonecodes();
@@ -251,6 +256,7 @@ class Employee extends My_Controller
 		$this->form_validation->set_rules('mobile', 'Mobile', 'regex_match[/^[0-9]{10}$/]');
 		$this->form_validation->set_rules('designation', 'Designation', 'required|exists[designation.id]');
 		$this->form_validation->set_rules('department', 'Department', 'required|exists[department.id]');
+		$this->form_validation->set_rules('role', 'Role', 'required|alpha');
 		$this->form_validation->set_rules('status', 'Status', 'required|in_list[0,1]');
 
 		$this->form_validation->set_message('id_callable', 'Employee details not found.');
@@ -264,10 +270,10 @@ class Employee extends My_Controller
 
         $email = trim($this->input->post('email',TRUE));
         
-        $split = explode("@",trim($email));
-		if(strtolower($split[1]) != $this->emp_domain){
-			sendResponse(0, 'Email id does not match with the domain');
-		}
+  //       $split = explode("@",trim($email));
+		// if(strtolower($split[1]) != $this->emp_domain){
+		// 	sendResponse(0, 'Email id does not match with the domain');
+		// }
 
         //Store
         
@@ -286,6 +292,7 @@ class Employee extends My_Controller
         $data['designation_id'] 		=  trim($this->input->post('designation',TRUE));
         $data['department_id'] 			=  trim($this->input->post('department',TRUE));
       	
+      	$data['role'] 					= trim($this->input->post('role',TRUE));
 		$data['status'] 				= trim($this->input->post('status',TRUE));;
 		$data['updated_by'] 			= $this->userid;
 

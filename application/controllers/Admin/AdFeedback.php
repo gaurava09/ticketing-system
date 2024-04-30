@@ -10,14 +10,14 @@ class AdFeedback extends My_Controller
 	{
 		parent::__construct();
 
-		$this->is_admin(1,$this->CUST_LOGIN);
+		$this->is_a_admin(1,$this->CUST_LOGIN);
 
-		$this->load->model('Customer_model');
 		$this->load->model('Company_model');
 		$this->load->model('Project_model');
 		$this->load->model('Complaint_model');
 		$this->load->model('Equipment_model');
 		$this->load->model('Feedback_model');
+		$this->load->model('Customer_model');
 	}
 
 	public function index() {	
@@ -210,8 +210,8 @@ class AdFeedback extends My_Controller
 				$this->sendFlashMsg(0,'Feedback details not found', 'feedback');
 			}
 			$project = $this->Project_model->get_project_details(array('p.ga_no' => $complaint['ga_no']));
-
 			$customer = $this->Customer_model->get_customer_details(['c.id' => $complaint['customer_id']]);
+			//dd($customer);
 
 		}else{
 			$this->sendFlashMsg(0,'Complaint details not found', 'feedback');
