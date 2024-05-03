@@ -385,6 +385,23 @@ class Complaint_model extends CI_Model {
             }
             return $row;
         }  
+
+    public function get_ticket_no($where,$col="*")
+    {
+        $this->db->select($col);
+        $this->db->from($this->table);
+        $this->db->where($where );
+        $this->db->order_by("ticket_no", "desc");
+        $query = $this->db->get();
+
+        if ( $query->num_rows() > 0 )
+        {
+            $row = $query->row_array();
+        }else{
+            $row = "";
+        }
+        return $row;
+    }  
         
     public function update_complaint($id,$data)
     {       

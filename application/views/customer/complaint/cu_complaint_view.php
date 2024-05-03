@@ -138,23 +138,7 @@ if($complaint['status'] == 4){
     </div> -->
   <?php  } ?>
 
-<?php  if( $complaint_type_key == 1 || $complaint_type_key == 3) { ?>
-    <div class="col-md-6">   
-      <div class="row">
-      <div class="col-md-4"><p><b>Visit From Date:</b></p> </div>  
-      <div class="col-md-8"><p><?php echo custDate($complaint['from_date']); ?></p></div>
-      </div>
-    </div>
-
-    <div class="col-md-6">   
-      <div class="row">
-      <div class="col-md-4"><p><b>Visit To Date:</b></p> </div>  
-      <div class="col-md-8"><p><?php echo custDate($complaint['to_date']); ?></p></div>
-      </div>
-    </div>
-
-<?php  }
-  else if($complaint_type_key == 2 && $complaint['files']){ ?>
+<?php if($complaint['files']){ ?>
     <div class="col-md-6">  
       <div class="row">
         <div class="col-md-4"><p><b>Attachment:</b></p> </div>   

@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row mb-12 search_div">
 	<div class="col-md-3 mb-3"><input class="form-control" id="name" type="text" placeholder="Name"></div>
 	<div class="col-md-3 mb-3"><input class="form-control" id="email" type="text" placeholder="Email"></div>
-	<div class="col-md-3 mb-3"><input class="form-control" id="mobile" type="text" placeholder="Contact No."></div>
+	<!-- <div class="col-md-3 mb-3"><input class="form-control" id="role" type="text" placeholder="Role"></div> -->
 
 	<div class="col-md-3 mb-3">
 		<select class="form-control" id="department">
@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <th scope="col">Sr. No.</th>
 <th scope="col">Name</th>
 <th scope="col">Email</th>
-<th scope="col">Contact No.</th>
+<th scope="col">Role</th>
 <th scope="col">Department</th>
 <th scope="col">Designation</th>
 <th scope="col">Status</th>
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			       data: function ( d ) {
 				        return $.extend( {}, d, {
 				           "name": $("#name").val().toLowerCase(),
-				           "mobile": $("#mobile").val().toLowerCase(),
+				           //"role": $("#role").val().toLowerCase(),
 				           "email": $("#email").val().toLowerCase(),
 				           "department_id": $("#department").val(),
 				           "status": $("#status").val()
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    },
 	                    { data: 'name' },
 	                    { data: 'email' },
-	                    { data: 'mobile' },
+	                    { data: 'role' },
 	                    { data: 'department'},
 	                    { data: 'designation'},
 	                    {

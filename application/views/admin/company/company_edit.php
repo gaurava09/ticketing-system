@@ -72,10 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // Extract name, ID, and role using regex
             preg_match('/\[(\d+)\]/', $entry, $matches);
             $id = $matches[1];
+            //dd($entry);
+            $emp = preg_replace('/\[\d+\]/', '', $entry);
             // Output the entry with a delete button
             echo '<div class="col-sm-4">';
             echo '<div id="entry-'.$id.'" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">';
-            echo '<span>'.$entry.'</span>';
+            echo '<span>'.$emp.'</span>';
             echo '<a class="deleteBtn btn btn-danger" style="padding: 1px 5px 1px 5px;" data-id="'.$id.'"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>';
             echo '</div>';
             echo '</div>';
@@ -92,13 +94,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- <div id="output"></div> -->
         <div class="row cc_row">  
-            <div class="col-6 form-group">
+            <!-- <div class="col-6 form-group">
                 <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
                 <datalist id="employees">
                     <?php  foreach ($admin as $key => $value) { ?>
                       <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?></option>
                     <?php } ?>
                 </datalist>
+            </div> -->
+            <div class="col-6 form-group">
+                <select class="form-control employee-dropdown" name="Employee_add[]">
+                    <option value="">Select Employee</option>
+                    <?php foreach ($admin as $key => $value) { ?>
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] . ' (' . $value['role'] . ')'; ?></option>
+                    <?php } ?>
+                </select>
             </div>
           <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Add add_Employee"></i></a></div>
         </div>
@@ -116,14 +126,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="cc_html d-none">
     <div class="row cc_row">  
         <div class="col-6 form-group">
-            <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
-            <datalist id="employees">
-                <?php 
-                foreach ($admin as $key => $value) { ?>
-                    <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?></option>
+            <select class="form-control employee-dropdown" name="Employee_add[]">
+                <option value="">Select Employee</option>
+                <?php foreach ($admin as $key => $value) { ?>
+                    <option value="<?php echo $value['id']; ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] . ' (' . $value['role'] . ')'; ?></option>
                 <?php } ?>
-                
-            </datalist>
+            </select>
         </div>
         <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Remove remove_cc"></i></a></div>
     </div>

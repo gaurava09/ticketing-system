@@ -142,7 +142,7 @@ class Company extends My_Controller
        
         $first_names = '';
         foreach ($admin as $user) {
-            $first_names .= $user['first_name'].' '.$user['last_name'].' ['.$user['id'].']('.$user['role']. '), ';
+            $first_names .= $user['first_name'].' '.$user['last_name'].' ('.$user['role']. '), ';
         }
 
         $first_names = rtrim($first_names, ', ');

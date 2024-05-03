@@ -131,9 +131,27 @@ class AdComplaint extends My_Controller
 		        }
 				//d($customer['company_name']);
 				$list[$key]['company'] 	= cap($customer['company_name']);
+
+				$assigned = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' => $value['id']],'created_by',['type' => 'assign']);
+					//dd($assigned);
+				if(!empty($assigned)){
+				    $assigned_admin = $this->User_model->get_user(['id' => $assigned['created_by']],'id,first_name,last_name');
+				    $list[$key]['assigned_emp'] = $assigned_admin['first_name'].' '.$assigned_admin['last_name'];
+				}else{
+					$list[$key]['assigned_emp'] = '-';
+				}
+
 			}
 
 			if($this->role == 'employee'){
+				$assigned = $this->ComplaintHistory_model->get_complaint_history(['complaint_id' => $value['id']],'created_by',['type' => 'assign']);
+					//dd($assigned);
+				if(!empty($assigned)){
+				    $assigned_admin = $this->User_model->get_user(['id' => $assigned['created_by']],'id,first_name,last_name');
+				    $list[$key]['assigned_emp'] = $assigned_admin['first_name'].' '.$assigned_admin['last_name'];
+				}else{
+					$list[$key]['assigned_emp'] = '-';
+				}
 				/*$list[$key]['action_taken'] = '';
 				if($value['solution'] != ''){
 					$list[$key]['action_taken'] = 'Yes';
@@ -284,6 +302,7 @@ class AdComplaint extends My_Controller
 			 	"aaData" 				=> $list
 			);
 		}
+		//dd($response);
 
 		sendResponse(1, 'success', $response);
 	}
@@ -541,9 +560,11 @@ class AdComplaint extends My_Controller
 		    } //end for
 
         }//end if compaint type 2
-
+        $company = $this->Customer_model->get_customer(['id' => $customer_id],'company_id');
+        $company_id = $company['company_id'];
        //Store
         $data['customer_id'] = $customer_id;
+        $data['company_id'] = $company_id;
 		// $data['company_id'] = $company_id;
         $data['ga_no'] = $ga_no;
 		// $data['complaint_type'] = $types[$complaint_type];
@@ -557,7 +578,17 @@ class AdComplaint extends My_Controller
 
 		$complaint_id = $this->Complaint_model->add_complaint($data);
 		if($complaint_id){
-			$ticket_no = str_pad($complaint_id, 6, '0', STR_PAD_LEFT);
+			$cust_detail = $this->Complaint_model->get_ticket_no(['company_id' => $company_id],'ticket_no');
+			//d($cust_detail);
+			if ($cust_detail['ticket_no'] != '') {
+				$t_no = $cust_detail['ticket_no'] + 1;
+				//update ticket no
+				$ticket_no = str_pad($t_no, 6, '0', STR_PAD_LEFT);
+				//dd($ticket_no);
+			}else{
+				$cust_detail = 1;
+				$ticket_no = str_pad($cust_detail, 6, '0', STR_PAD_LEFT);
+			}
 
 			$this->Complaint_model->update_complaint($complaint_id, ['ticket_no' => $ticket_no]);
 

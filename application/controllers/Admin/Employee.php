@@ -60,7 +60,7 @@ class Employee extends My_Controller
         $allres  = $this->User_model->count($whereArr,$likeArr,$wherein);
         $totalRecordwithFilter = $allres;
 
-        $columns = 'id,first_name,last_name,country_code, mobile, email, status, created_at,department_id as department,designation_id as designation';
+        $columns = 'id,first_name,last_name,country_code, mobile, email, status, created_at,department_id as department,designation_id as designation,role';
         $list = $this->User_model->get_users($whereArr,$columns,$startrow,$rowperpage , $likeArr,$wherein);
 
         foreach ($list as $key => $value) {
@@ -80,7 +80,7 @@ class Employee extends My_Controller
 			$list[$key]['name'] 		= cap($value['first_name'].' '.$value['last_name']);
 			$list[$key]['created_at'] 	= custDate($value['created_at']);
 		}
-        // dd($list);
+        //dd($list);
 
         $response = array(
             "draw"                  => intval($draw),
@@ -238,8 +238,13 @@ class Employee extends My_Controller
 	                'id_callable',
 	                function($str)
 	                {	
+	                	//$roles = ['admin', 'employee']; // Add the roles you want to retrieve
+        				//$admin = $this->User_model->get_users('', '*', '', '', '', '', $roles);
 	                	$employee = $this->User_model->get_user(['id' => $str, 'role' => 'employee']);
+	                	$admin = $this->User_model->get_user(['id' => $str, 'role' => 'admin']);
 	                    if($employee){
+	                    	return true;
+	                    }elseif($admin){
 	                    	return true;
 	                    }else{
 	                    	return false;

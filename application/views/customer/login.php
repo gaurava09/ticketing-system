@@ -129,7 +129,7 @@
 
     <button class="ladda-button btn btn-rounded btn-primary btn-block mt-5" dir="ltr" data-style="slide-up" type="submit" id="submit_login">Sign In </button>
 
-    <a class="btn btn-rounded btn-info btn-block mt-3" href="<?php echo site_url('customer/register'); ?>">Create an account</a>
+    <!-- <a class="btn btn-rounded btn-info btn-block mt-3" href="<?php echo site_url('customer/register'); ?>">Create an account</a> -->
 </div>
 
 

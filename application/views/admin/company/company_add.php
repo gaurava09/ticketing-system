@@ -49,15 +49,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="col-md-12 form-group mb-3 cc_div">
   <label>Employees</label>
     <div class="row cc_row">  
-        <div class="col-6 form-group">
-      <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
-      <datalist id="employees">
-        <?php  foreach ($data as $key => $value) { ?>
-          <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?> (<?php echo $value['role']  ?>)</option>
-        <?php } ?>
-      </datalist>
-        </div>
-      <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Add add_Employee"></i></a></div>
+      <div class="col-6 form-group">
+          <select class="form-control employee-dropdown" name="Employee_add[]">
+              <option value="">Select Employee</option>
+              <?php foreach ($data as $key => $value) { ?>
+                  <option value="<?php echo $value['id']; ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] . ' (' . $value['role'] . ')'; ?></option>
+              <?php } ?>
+          </select>
+      </div>
+      <div class="col-2 form-group pt-1">
+          <a href="#"><i class="text-20 i-Add add_Employee"></i></a>
+      </div>
     </div>
 </div>
 </div>
@@ -75,17 +77,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="cc_html d-none">
-    <div class="row cc_row">  
-        <div class="col-6 form-group">
-            <input list="employees" class="form-control" type="text" placeholder="Add Employee" name="Employee_add[]"/>
-            <datalist id="employees">
-                <?php  foreach ($data as $key => $value) { ?>
-                  <option value="<?php echo $value['id']  ?>"><?php echo $value['first_name']  ?> <?php echo $value['last_name']  ?></option>
-                <?php } ?>
-            </datalist>
-        </div>
-        <div class="col-2 form-group  pt-1 "><a href="#"><i class="text-20 i-Remove remove_cc"></i></a></div>
+  <div class="row cc_row">  
+    <div class="col-6 form-group">
+        <select class="form-control employee-dropdown" name="Employee_add[]">
+            <option value="">Select Employee</option>
+            <?php foreach ($data as $key => $value) { ?>
+                <option value="<?php echo $value['id']; ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] . ' (' . $value['role'] . ')'; ?></option>
+            <?php } ?>
+        </select>
     </div>
+    <div class="col-2 form-group  pt-1 ">
+      <a href="#"><i class="text-20 i-Remove remove_cc"></i></a>
+    </div>
+  </div>
 </div>
 <?php $this->load->view('common/footer');  ?>
 
@@ -100,12 +104,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var allValid = true;
     var employeeData = []; // Array to store employee data
 
-    // Check all existing input fields
-    $('.cc_div .cc_row input[type="text"]').each(function() {
-        var value = $(this).val().trim();
+    // Check all existing dropdowns
+    $('.cc_div .cc_row select.employee-dropdown').each(function() {
+        var value = $(this).val();
 
         if (value === '') {
-            alert('Please enter a value for all employee fields.');
+            alert('Please select an employee for all fields.');
             allValid = false;
             return false; // Exit the loop early
         }
@@ -113,6 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // Check for duplicate data
         if (employeeData.indexOf(value) !== -1) {
             alert('Duplicate data found.');
+            $(this).parents('.cc_row').remove(); // Remove the duplicate row
             allValid = false;
             return false; // Exit the loop early
         }
@@ -132,16 +137,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
   });
 
-
   $(document).on('click','.cc_div .remove_cc', function(e) {
       e.preventDefault();
       
       if($('.cc_div .cc_row').length > 1){
-         $(this).parents('.cc_row').remove();
-      }else{
-         // alert('you can not assign more than 4 at a time');
+          $(this).parents('.cc_row').remove();
+      } else {
+          // alert('you can not assign more than 4 at a time');
       }
   });
+
 	$('#CompanyForm').validate({
         ignore: [],
         // debug: true,

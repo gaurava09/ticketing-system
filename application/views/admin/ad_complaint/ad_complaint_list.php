@@ -145,6 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <th scope="col abc">Action Taken</th>
 <?php } ?>
 <th scope="col">Status</th>
+<th scope="col">Assigned By</th>
 <th scope="col">Created By</th>
 <th scope="col">Created Date</th>
 <th scope="col">Action</th>
@@ -271,6 +272,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					      }
 					    },
 
+	                    { data: 'assigned_emp' },
 	                    { data: 'created_by' },
 	                    { data: 'created_at' },
 	                    {

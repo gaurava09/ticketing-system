@@ -41,9 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php } ?>
 
 <?php if($this->role == 'customer') { ?>
-    <div class="desktop_links">
+    <!-- <div class="desktop_links">
          <a href="<?php echo site_url('customer/complaint/create'); ?>" class="btn cust_top_link"> <span>New Complaint</span> </a>
-        <!-- <a href="<?php echo site_url('customer/enquiry/create'); ?>" class="btn cust_top_link"> <span>New Spare Part Enquiry</span> </a> -->
     </div>
     <div class="mobile_links">
         <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="false" aria-expanded="true">
@@ -52,10 +51,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </a>
         <div class="dropdown-menu" x-placement="bottom-start">
             <a href="<?php echo site_url('customer/complaint/create'); ?>" class="dropdown-item"> <span>New Complaint</span> </a>
-            <!-- <a href="<?php echo site_url('customer/enquiry/create'); ?>" class="dropdown-item"> <span>New Spare Part Enquiry</span> </a> -->
             <a href="<?php echo site_url('contact'); ?>" class="dropdown-item"> <span>Contact Us</span> </a>
         </div>
-    </div>
+    </div> -->
    
 
 <!-- <div class="dropdown">

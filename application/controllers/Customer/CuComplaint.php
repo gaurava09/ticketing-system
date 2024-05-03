@@ -219,7 +219,7 @@ class CuComplaint extends My_Controller
         }
 
 
-        if($complaint_type ==2 && isset($_FILES['file']) ){ //equi failure
+        if(isset($_FILES['file']) ){ //equi failure
         	$this->load->model('Files_model');
 
         	$this->load->library('upload');
@@ -327,7 +327,8 @@ class CuComplaint extends My_Controller
 		    } //end for
 
         }//end if compaint type 2
-
+        $company = $this->Customer_model->get_customer(['id' => $this->userid],'company_id');
+        $company_id = $company['company_id'];
        //Store
         $data['ga_no'] = $ga_no;
 		// $data['complaint_type'] = $types[$complaint_type];
@@ -336,15 +337,24 @@ class CuComplaint extends My_Controller
 		$data['cust_equipment_no'] = $cust_equipment_no;
 		$data['email_cc'] = implode(",", $email_arr);
 		$data['customer_id'] = $this->userid;
+		$data['company_id'] = $company_id;
 		$data['status'] = 2;
 		$data['created_by'] = 'c_'.$this->userid;
 		$data['created_at'] = getDt();
 
 		$complaint_id = $this->Complaint_model->add_complaint($data);
 		if($complaint_id){
-
-			//update ticket no
-			$ticket_no = str_pad($complaint_id, 6, '0', STR_PAD_LEFT);
+			$cust_detail = $this->Complaint_model->get_ticket_no(['company_id' => $company_id],'ticket_no');
+			//d($cust_detail);
+			if ($cust_detail['ticket_no'] != '') {
+				$t_no = $cust_detail['ticket_no'] + 1;
+				//update ticket no
+				$ticket_no = str_pad($t_no, 6, '0', STR_PAD_LEFT);
+				//dd($ticket_no);
+			}else{
+				$cust_detail = 1;
+				$ticket_no = str_pad($cust_detail, 6, '0', STR_PAD_LEFT);
+			}
 			$this->Complaint_model->update_complaint($complaint_id, ['ticket_no' => $ticket_no]);
 
 			

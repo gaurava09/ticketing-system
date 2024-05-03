@@ -31,9 +31,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="triangle"></div>
 </li>
 
-<li class="nav-item" data-item="info"><a class="nav-item-hold" href="#"><i class="nav-icon i-Library"></i><span class="nav-text">Info</span></a>
+<!-- <li class="nav-item" data-item="info"><a class="nav-item-hold" href="#"><i class="nav-icon i-Library"></i><span class="nav-text">Info</span></a>
 <div class="triangle"></div>
-</li>
+</li> -->
 
 </ul>
 </div>
