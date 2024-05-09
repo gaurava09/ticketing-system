@@ -168,12 +168,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var allValid = true;
         var employeeData = []; // Array to store employee data
 
-        // Check all existing input fields
-        $('.cc_div .cc_row input[type="text"]').each(function() {
-            var value = $(this).val().trim();
+        // Check all existing dropdowns
+        $('.cc_div .cc_row select.employee-dropdown').each(function() {
+            var value = $(this).val();
 
             if (value === '') {
-                alert('Please enter a value for all employee fields.');
+                alert('Please select an employee for all fields.');
                 allValid = false;
                 return false; // Exit the loop early
             }
@@ -181,6 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // Check for duplicate data
             if (employeeData.indexOf(value) !== -1) {
                 alert('Duplicate data found.');
+                $(this).parents('.cc_row').remove(); // Remove the duplicate row
                 allValid = false;
                 return false; // Exit the loop early
             }
@@ -198,17 +199,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 alert('You cannot add more than 10 employees.');
             }
         }
-    });
+      });
 
-    $(document).on('click','.cc_div .remove_cc', function(e) {
-        e.preventDefault();
-        
-        if($('.cc_div .cc_row').length > 1){
-           $(this).parents('.cc_row').remove();
-        }else{
-           // alert('you can not assign more than 4 at a time');
-        }
-    });
+      $(document).on('click','.cc_div .remove_cc', function(e) {
+          e.preventDefault();
+          
+          if($('.cc_div .cc_row').length > 1){
+              $(this).parents('.cc_row').remove();
+          } else {
+              // alert('you can not assign more than 4 at a time');
+          }
+      });
 	$('#CompanyForm').validate({
         ignore: [],
         // debug: true,
