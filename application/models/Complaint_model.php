@@ -17,15 +17,34 @@ class Complaint_model extends CI_Model {
        return $this->db->count_all_results($this->table);
     }
 
+    public function count_a($whereArr = '', $likeArr = '', $whereInArr = '') {
+        if ($whereArr) {
+            $this->db->where($whereArr);
+        }
 
-    public function monthWiseData($whereArr='') {
+        if ($likeArr) {
+            foreach ($likeArr as $key => $value) {
+                $this->db->like($key, $value);
+            }
+        }
+
+        if ($whereInArr) {
+            $this->db->where_in('company_id', $whereInArr);
+        }
+
+        return $this->db->count_all_results($this->table);
+    }
+
+
+
+    public function monthWiseData($whereInArr='') {
         $result = array();
 
         $this->db->select("COUNT(id) as count,DATE_FORMAT(created_at, '%b') as month");
         $this->db->from($this->table);
         $this->db->where('YEAR(created_at) = YEAR(CURDATE())');
-        if($whereArr){
-
+        if($whereInArr){
+            $this->db->where_in('company_id', $whereInArr);
         }
         $this->db->group_by('YEAR(created_at)'); 
         $this->db->group_by("MONTH(created_at), DATE_FORMAT(created_at, '%b')"); 

@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="d-flex align-items-center top_link_wrapper">
 
 <?php if($this->role == 'admin') { ?>
-<div class="dropdown">
+<!-- <div class="dropdown">
     <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="false" aria-expanded="true">
         Create New 
         <i class="i-Arrow-Down-in-Circle"></i>
@@ -29,15 +29,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="dropdown-menu" x-placement="bottom-start">
         <a href="<?php echo site_url('complaint/create'); ?>" class="dropdown-item"> <span>New Complaint</span> </a>
         <a href="<?php echo site_url('customer/create'); ?>" class="dropdown-item"> <span>New Customer</span> </a>
-        <!-- <a href="<?php echo site_url('equipment/create'); ?>" class="dropdown-item"> <span>New Equipment</span> </a> -->
-        <!-- <a href="<?php echo site_url('sparepart/create'); ?>" class="dropdown-item"> <span>New Spare part</span> </a> -->
-        <!-- <a href="<?php echo site_url('project/create'); ?>" class="dropdown-item"> <span>New Project</span> </a> -->
         <a href="<?php echo site_url('company/create'); ?>" class="dropdown-item"> <span>New Company</span> </a>
         <a href="<?php echo site_url('department/create'); ?>" class="dropdown-item"> <span>New Department</span> </a>
         <a href="<?php echo site_url('designation/create'); ?>" class="dropdown-item"> <span>New Designation</span> </a>
         <a href="<?php echo site_url('employee/create'); ?>" class="dropdown-item"> <span>New Employee</span> </a>
     </div>
-</div>
+</div> -->
 <?php } ?>
 
 <?php if($this->role == 'customer') { ?>

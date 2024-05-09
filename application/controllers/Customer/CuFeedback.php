@@ -250,7 +250,7 @@ class CuFeedback extends My_Controller
 				This is to inform you there is a new feedback from customer ('.ticketText($complaint['ticket_no']).'). <br><br>
 
 				Best Regards,<br>
-				Team Tsubaki.';
+				Team AGENCY09.';
 	
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
@@ -275,7 +275,7 @@ class CuFeedback extends My_Controller
 				If you have more questions, comments or concerns, please feel welcome to reach back as we would be happy to assist. <br><br>
 
 				Best Regards,<br>
-				Team Tsubaki.
+				Team AGENCY09.
 				';
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg);
 		}

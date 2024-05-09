@@ -19,6 +19,7 @@ class Dashboard extends My_Controller
 
 		$this->load->model('Enquiry_model');
 		$this->load->model('Complaint_model');
+		$this->load->model('Company_model');
 		$this->load->model('Customer_model');
 		$this->load->model('Equipment_model');
 	}
@@ -44,10 +45,14 @@ class Dashboard extends My_Controller
 		$att_enquiry  = $this->Enquiry_model->count(['status !=' => 2]);
 		
 		//complaint
-		$open  = $this->Complaint_model->count(['status' => 2]);
-		$ongoing  = $this->Complaint_model->count(['status' => 3]);
-		$completed  = $this->Complaint_model->count(['status' => 1]);
-		$closed  = $this->Complaint_model->count(['status' => 4]);
+		$companyIds = $this->Company_model->check_company($this->userid);
+		//dd($company_n);
+		//$companyIds = [32, 4];
+		$open  = $this->Complaint_model->count_a(['status' => 2], '', $companyIds);
+		//dd($open);
+		$ongoing  = $this->Complaint_model->count_a(['status' => 3], '', $companyIds);
+		$completed  = $this->Complaint_model->count_a(['status' => 1], '', $companyIds);
+		$closed  = $this->Complaint_model->count_a(['status' => 4], '', $companyIds);
 
 		//latest ticket
 		$columns = 'id,ticket_no,ga_no,complaint_type,customer_id,status,created_at';
@@ -101,7 +106,7 @@ class Dashboard extends My_Controller
 	        "Nov"   => 0,
 	        "Dec"   => 0
 	    );
-		$complaint_data = $this->Complaint_model->monthWiseData();
+		$complaint_data = $this->Complaint_model->monthWiseData($companyIds);
 		foreach ($complaint_data as $key => $value) {
 			$month = $value['month'];
 			if(isset($months_arr[$month])){
@@ -116,7 +121,7 @@ class Dashboard extends My_Controller
 		$complaint_types = complaint_types();
 		$types_data = [];
 		foreach ($complaint_types as $key => $type) {
-			$count = $this->Complaint_model->count(['complaint_type' => $key]);
+			$count = $this->Complaint_model->count_a(['complaint_type' => $key], '', $companyIds);
 			$types_data[] = ['value' => $count,'name' => $type];
 		}
 

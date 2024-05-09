@@ -95,6 +95,18 @@ class Company_model extends CI_Model {
         return $this->db;
     }
 
-
+    public function check_company($data) {
+        // Assuming $data contains the employee ID
+        $this->db->select('id');
+        $this->db->from('company');
+        $this->db->where("FIND_IN_SET('$data', employees) > 0");
+        
+        $query = $this->db->get();
+        $companyIds = array();
+        foreach ($query->result() as $row) {
+            $companyIds[] = $row->id;
+        }
+        return $companyIds;
+    }
 }
 ?>

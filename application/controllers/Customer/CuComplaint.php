@@ -346,14 +346,17 @@ class CuComplaint extends My_Controller
 		if($complaint_id){
 			$cust_detail = $this->Complaint_model->get_ticket_no(['company_id' => $company_id],'ticket_no');
 			//d($cust_detail);
+			$company_n = $this->Company_model->get_company(['id' => $company_id],'name');
+			//dd($company_n);
+			$ftl = substr($company_n['name'], 0, 2);
 			if ($cust_detail['ticket_no'] != '') {
 				$t_no = $cust_detail['ticket_no'] + 1;
 				//update ticket no
-				$ticket_no = str_pad($t_no, 6, '0', STR_PAD_LEFT);
+				$ticket_no = $ftl.''.str_pad($t_no, 4, '0', STR_PAD_LEFT);
 				//dd($ticket_no);
 			}else{
 				$cust_detail = 1;
-				$ticket_no = str_pad($cust_detail, 6, '0', STR_PAD_LEFT);
+				$ticket_no = $ftl.''.str_pad($cust_detail, 4, '0', STR_PAD_LEFT);
 			}
 			$this->Complaint_model->update_complaint($complaint_id, ['ticket_no' => $ticket_no]);
 
@@ -432,7 +435,7 @@ class CuComplaint extends My_Controller
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				Tsubaki. ";
+				AGENCY09. ";
 
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
@@ -451,7 +454,7 @@ class CuComplaint extends My_Controller
 				We assure you of our best services at all times.<br><br>
 
 				Best Regards,<br>
-				Team Tsubaki. ";
+				Team AGENCY09. ";
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
@@ -869,7 +872,7 @@ class CuComplaint extends My_Controller
 			
 		$admMsg .="
 			Best Regards,<br>
-			Tsubaki. ";
+			AGENCY09. ";
 
 		$sendMail = $this->sendMail($to, $admSubject, $admMsg,FALSE,FALSE,$cc);
 		
