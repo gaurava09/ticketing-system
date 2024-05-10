@@ -584,7 +584,8 @@ class AdComplaint extends My_Controller
 			//dd($company_n);
 			$ftl = substr($company_n['name'], 0, 2);
 			if ($cust_detail['ticket_no'] != '') {
-				$t_no = $cust_detail['ticket_no'] + 1;
+				$n_t_no = substr($cust_detail['ticket_no'], 2); // Remove the first two characters
+				$t_no = $n_t_no + 1;
 				//update ticket no
 				$ticket_no = $ftl.''.str_pad($t_no, 4, '0', STR_PAD_LEFT);
 				//dd($ticket_no);
