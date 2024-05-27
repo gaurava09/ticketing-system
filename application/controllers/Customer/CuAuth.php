@@ -130,7 +130,7 @@ class CuAuth extends My_Controller
             $verification_code 	= mt_rand(100000, 999999);
 
             //send verification code to email
-            $subject = 'Tsubaki Account Verification Code';
+            $subject = 'AGENCY09. Account Verification Code';
 			$bodyMsg = "Hi ".ucfirst($f_name).",<br><br>
 
 					You have requested verification code.<br>
@@ -140,7 +140,7 @@ class CuAuth extends My_Controller
 					We are happy to have you on board. <br><br>
 
 					Best Regards,<br>
-					Team Tsubaki.
+					Team AGENCY09..
 					";
 			$sendMail = $this->sendMail($email, $subject, $bodyMsg);
 
@@ -361,7 +361,7 @@ class CuAuth extends My_Controller
 				$insertid = $this->PasswordReset_model->add_data($data);
 
 				if($insertid){
-					$subject = 'Tsubaki: Customer Support Portal - Password Reset Link';
+					$subject = 'AGENCY09.: Customer Support Portal - Password Reset Link';
 
 
 					$message = "
@@ -371,7 +371,7 @@ class CuAuth extends My_Controller
 	        					".site_url('customer/resetpassword/'.$token)." <br><br>
 
 	        					Best Regards, <br>
-	        					Team Tsubaki
+	        					Team AGENCY09.
 	        					";
 
 

@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="">
-<div class="float-left breadcrumb"><h1 class="mr-2">Create Complaint</h1></div>
+<div class="float-left breadcrumb"><h1 class="mr-2">Create Ticket</h1></div>
 <div class="float-right"><a class="btn btn-primary" type="button" data-dismiss="modal" href="<?php echo site_url('customer/complaint'); ?>"><i class="i-Left-3"></i> Back</a></div>
 <div class="clearfix"></div>
 </div>
@@ -78,14 +78,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div> -->
 
 <div class="col-md-3 form-group mb-3">
-<label for=" ">Complaint Type</label>
+<label for=" ">Ticket Type</label>
 </div>
 
 <div class="col-md-9 form-group mb-3">
 <div class="row">
     <div class="col-md-12 form-group mb-3">
         <select class="form-control" id="complaint_type" name="complaint_type">
-        	<option value="">Select Complaint Type</option>
+        	<option value="">Select Ticket Type</option>
             <?php
             $complaint_types = complaint_types();
             	foreach ($complaint_types as $key => $value) {

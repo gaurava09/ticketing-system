@@ -393,7 +393,7 @@ class AdEnquiry extends My_Controller
 				Please check customer support portal for further details.<br><br>
 
 				Best Regards,<br>
-				Team Tsubaki. ';
+				Team AGENCY09. ';
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg);
 		}
 	}

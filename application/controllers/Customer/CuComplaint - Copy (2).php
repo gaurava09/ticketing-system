@@ -416,7 +416,7 @@ class CuComplaint extends My_Controller
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
 				Best,<br>
-				Tsubaki. ";
+				Team Ticketing. ";
 
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
@@ -435,7 +435,7 @@ class CuComplaint extends My_Controller
 				We're sorry for the inconvenience.<br><br>
 
 				Best,<br>
-				Team Tsubaki. ";
+				Team Ticketing. ";
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
@@ -837,7 +837,7 @@ class CuComplaint extends My_Controller
 			
 		$admMsg .="
 			Best,<br>
-			Tsubaki. ";
+			Team Ticketing. ";
 
 		$sendMail = $this->sendMail($to, $admSubject, $admMsg,FALSE,FALSE,$cc);
 		

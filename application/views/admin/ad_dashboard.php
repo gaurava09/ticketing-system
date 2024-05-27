@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="col-lg-12 col-sm-12">
 		<div class="card mb-4">
 		<div class="card-body">
-		<div class="card-title">Complaint Types</div>
+		<div class="card-title">Ticket Types</div>
 		<div id="echartPie" style="height: 300px;"></div>
 		</div>
 		</div>
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="col-lg-6 col-md-6 col-sm-12">
       <div class="card o-hidden mb-4">
          <div class="card-header d-flex align-items-center border-0">
-            <h3 class="w-50 float-left card-title m-0">Latest Complaints</h3>
+            <h3 class="w-50 float-left card-title m-0">Latest Tickets</h3>
             <div class="dropdown dropleft text-right w-50 float-right">
             	<a href="<?php echo site_url('complaint/create'); ?>" class="btn btn-primary">Add New</a>
             	<a href="<?php echo site_url('complaint'); ?>" class="btn btn-primary">View All</a>

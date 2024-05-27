@@ -436,7 +436,7 @@ class CuComplaint extends My_Controller
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				AGENCY09. ";
+				Team AGENCY09. ";
 
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
@@ -873,7 +873,7 @@ class CuComplaint extends My_Controller
 			
 		$admMsg .="
 			Best Regards,<br>
-			AGENCY09. ";
+			Team AGENCY09. ";
 
 		$sendMail = $this->sendMail($to, $admSubject, $admMsg,FALSE,FALSE,$cc);
 		

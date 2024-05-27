@@ -35,7 +35,7 @@ class ChatCron extends My_Controller
 				$message .="You have a new message. Please check customer support portal for further details.<br><br>
 
 					Best Regards,<br>
-					Ticketing.";
+					Team AGENCY09.";
 
 				$sendMail = $this->sendMail($to_email, $subject, $message);
 			}

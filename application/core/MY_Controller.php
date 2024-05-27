@@ -71,9 +71,11 @@ class My_Controller extends CI_Controller {
 			// print_r($_SERVER);
 			$referer = (isset($_SERVER['HTTP_REFERER']) ) ? $_SERVER['HTTP_REFERER'] : '/';
 			
-
 			foreach ($_POST as $key => $value) {
-
+				// Skip the 'description' field
+			    if ($key === 'description') {
+			        continue;
+			    }
 				if(is_string($value)){
 					$this->_validateInpFields($value,$is_ajax,$referer);
 				}else if(is_array($value)){

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     
 <div class="">
-	<div class="float-left breadcrumb"><h1 class="mr-2">All Complaints</h1></div>
+	<div class="float-left breadcrumb"><h1 class="mr-2">All Tickets</h1></div>
 	<div class="float-right">
 		<a class="btn btn-primary export" type="button" href="<?php echo site_url('complaint/export'); ?>">Export</a>
 
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row mb-12 search_div">
 	
 <div class="col-md-12 ">
-<p>Search complaints</p>
+<p>Search Tickets</p>
 </div>
 <!-- <div class="col-md-3 mb-3"><input class="form-control" id=" " type="text" placeholder="Company Name"></div> -->
 <div class="col-md-3 mb-3"><input class="form-control" id="ticket_no" type="text" placeholder="Ticket No."></div>
@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- <div class="col-md-3 mb-3"><input class="form-control" id="company" type="text" placeholder="Company Name"></div> -->
 <div class="col-md-3 mb-3">
  	<select class="form-control" id="complaint_type" >
-    	<option value="">Select Complaint Type</option>
+    	<option value="">Select Ticket Type</option>
         <?php
         	$complaint_types = complaint_types();
         	foreach ($complaint_types as $key => $value) {
@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <th scope="col">Ticket No.</th>
 <!-- <th scope="col">GA Number</th> -->
 <th scope="col">Company Name</th>
-<th scope="col">Complaint Type</th>
+<th scope="col">Ticket Type</th>
 <!-- <th scope="col">Classification</th> -->
 <?php if($this->role == 'admin' || $this->role == 'super_admin') { ?>
 <th scope="col abc">Feedback Submitted</th>

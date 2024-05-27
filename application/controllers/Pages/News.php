@@ -360,14 +360,14 @@ class News extends My_Controller
 
 							".$data['title']."<br><br>
 
-							The latest news of Tsubaki optimization, conversation and trends served fresh right to your inbox!<br><br>
+							The latest news of AGENCY09 optimization, conversation and trends served fresh right to your inbox!<br><br>
 
 							Best Regards,<br>
-							Team Tsubaki.";
+							Team AGENCY09.";
 
 					$job_data = array(
 						'type' => "news",
-						'subject' => "What's New in the world of Tsubaki!",
+						'subject' => "What's New in the world of AGENCY09!",
 						'message' => $message,
 						'to_email' => NO_REPLY_EMAIL_ID,
 						'bcc_email' => json_encode($value),

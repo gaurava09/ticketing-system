@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</li>
 
 <?php } else { ?>
-	<li class="nav-item" data-item="ticket_management"><a class="nav-item-hold" href="#"><i class="nav-icon i-Receipt-3"></i><span class="nav-text">Complaint Management</span></a>
+	<li class="nav-item" data-item="ticket_management"><a class="nav-item-hold" href="#"><i class="nav-icon i-Receipt-3"></i><span class="nav-text">Ticket Management</span></a>
 	<div class="triangle"></div>
 	</li>
 <?php } ?>
@@ -87,10 +87,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <ul class="childNav" data-parent="ticket_management">
-<li class="nav-item"><a href="<?php echo site_url('complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Complaint List</span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Ticket List</span></a></li>
 
 <?php if($this->role == 'super_admin') { ?>
-<li class="nav-item"><a href="<?php echo site_url('complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Complaint</span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Ticket</span></a></li>
 <?php } ?>
 
 </ul>

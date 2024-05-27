@@ -34,7 +34,7 @@ class OpenComplaintCron extends My_Controller
 			}
 			// d($list);
 			//mail
-			$admSubject = 'Tsubaki : Open Complaints';
+			$admSubject = 'Ticketing : Open Complaints';
 			$admMsg 	= "
 				Hello Pradeep Bhave, <br><br>
 
@@ -44,7 +44,7 @@ class OpenComplaintCron extends My_Controller
 				Please process the complaints and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				Tsubaki.";
+				Team Ticketing.";
 
 			$sendMail = $this->sendMail('BHAVE.PRADEEP@mahindra.com', $admSubject, $admMsg);
 			// $sendMail = $this->sendMail('nilesh@agency09.in', $admSubject, $admMsg);
@@ -67,7 +67,7 @@ class OpenComplaintCron extends My_Controller
 			}
 			// d($list);
 			//mail
-			$admSubject = 'Tsubaki : Open Complaints';
+			$admSubject = 'Ticketing : Open Complaints';
 			$admMsg 	= "
 				Hello Ravindra Vaidya, <br><br>
 
@@ -77,7 +77,7 @@ class OpenComplaintCron extends My_Controller
 				Please process the complaints and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				Tsubaki.";
+				Team Ticketing.";
 
 			$sendMail = $this->sendMail('VAIDYA.RAVINDRA@mahindra.com', $admSubject, $admMsg);
 

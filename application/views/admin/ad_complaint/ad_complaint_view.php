@@ -6,7 +6,7 @@ $complaint_status_list = complaint_status_list();
 ?>
 
 <div class="">
-<div class="float-left breadcrumb"><h1 class="mr-2">Complaint Summary</h1></div>
+<div class="float-left breadcrumb"><h1 class="mr-2">Ticket Summary</h1></div>
 <div class="float-right">
   <?php
   if($this->role =='admin' || $this->role == 'super_admin' && $complaint['feedback'] == 1){
@@ -77,7 +77,7 @@ $complaint_status_list = complaint_status_list();
 
 <div class="col-md-6">   
 <div class="row">
-<div class="col-md-4"><p><b>Complaint Type:</b></p> </div>  
+<div class="col-md-4"><p><b>Ticket Type:</b></p> </div>  
 <div class="col-md-8"><p><?php echo $complaint_types[$complaint['complaint_type']]; ?></p></div>
 </div>
 </div>

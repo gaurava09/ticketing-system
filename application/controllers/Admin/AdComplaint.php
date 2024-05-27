@@ -649,7 +649,7 @@ class AdComplaint extends My_Controller
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
 				Best Regards,<br>
-				Ticketing. ";
+				Team AGENCY09. ";
 
 			$sendMail = $this->sendMail($this->email, $admSubject, $admMsg);
 		}
@@ -669,7 +669,7 @@ class AdComplaint extends My_Controller
 				We assure you of our best services at all times.<br><br>
 
 				Best Regards,<br>
-				Team Ticketing. ";
+				Team AGENCY09. ";
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
@@ -928,7 +928,7 @@ class AdComplaint extends My_Controller
 				There is a new complaint in the queue to be resolved from the customer (GA no. '.$complaint['ga_no'].') (Ticket no. '.$complaint['ticket_no'].') '.$product_text.'. <br><br>
 
 				Best Regards,<br>
-				Ticketing.';
+				Team AGENCY09.';
 
 				$mail_details[] = array(
 					'email' => $empdetails['email'],
@@ -980,7 +980,7 @@ class AdComplaint extends My_Controller
 				Please check customer support portal for further details.<br><br>
 				
 				Best Regards,<br>
-				Team Ticketing.';
+				Team AGENCY09.';
 
 				$mail_details[] = array(
 					'email' => $customer['email'],
@@ -1427,7 +1427,7 @@ class AdComplaint extends My_Controller
 					Please be available at the given address to assist the engineer with all the necessary information. <br><br>
 
 					Best Regards, <br>
-					Team Ticketing. ';
+					Team AGENCY09. ';
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr);
 		}
 
@@ -1444,7 +1444,7 @@ class AdComplaint extends My_Controller
 				Please note this down for the records. <br><br>
 
 				Best Regards, <br>
-				Team Ticketing. ';
+				Team AGENCY09. ';
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
 	}
@@ -1477,7 +1477,7 @@ class AdComplaint extends My_Controller
 				Please check customer support portal for further details. <br><br>
 
 				Best Regards, <br>
-				Team Ticketing.';
+				Team AGENCY09.';
 
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr,$bcc);
 		}
@@ -1627,7 +1627,7 @@ class AdComplaint extends My_Controller
 			Get in touch if there is any query.<br><br>
 
 			Best Regards,<br>
-			Ticketing ';
+			Team AGENCY09. ';
 
 			if($assignee){
 				foreach ($assignee as $key => $value) {

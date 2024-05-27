@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="">
-<div class="float-left breadcrumb"><h1 class="mr-2">Complaint View</h1></div>
+<div class="float-left breadcrumb"><h1 class="mr-2">Ticket View</h1></div>
 <div class="float-right"><a class="btn btn-primary" type="button" data-dismiss="modal" href="<?php echo site_url('customer/complaint'); ?>"><i class="i-Left-3"></i> Back</a></div>
 <div class="clearfix"></div>
 </div>
@@ -85,7 +85,7 @@ if($complaint['status'] == 4){
 
 <div class="col-md-6">   
 <div class="row">
-<div class="col-md-4"><p><b>Complaint Type:</b></p> </div>  
+<div class="col-md-4"><p><b>Ticket Type:</b></p> </div>  
 <div class="col-md-8"><p><?php echo $complaint_types[$complaint['complaint_type']]; ?></p></div>
 </div>
 </div>
@@ -150,7 +150,7 @@ if($complaint['status'] == 4){
 
 <div class="col-md-6">  
 <div class="row">
-<div class="col-md-4"><p><b>Complaint Date: </b></p></div> 
+<div class="col-md-4"><p><b>Ticket Date: </b></p></div> 
 <div class="col-md-8"><p><?php echo custDate($complaint['created_at']); ?></p></div>
 </div>
 </div>

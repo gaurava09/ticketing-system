@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="triangle"></div>
 </li>
 
-<li class="nav-item" data-item="complaint_history"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Horizontal-Text"></i><span class="nav-text">Complaint History</span></a>
+<li class="nav-item" data-item="complaint_history"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Horizontal-Text"></i><span class="nav-text">Ticket History</span></a>
 <div class="triangle"></div>
 </li>
 <!-- <li class="nav-item" data-item="product_spare_details"><a class="nav-item-hold" href="#"><i class="nav-icon i-Receipt-3"></i><span class="nav-text">Spare Enquiry</span></a>
@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </ul> -->
 
 <ul class="childNav" data-parent="complaint_history">
-<li class="nav-item"><a href="<?php echo site_url('customer/complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">List of Complaints</span></a></li>
-<li class="nav-item"><a href="<?php echo site_url('customer/complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Complaint</span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('customer/complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">List of Tickets</span></a></li>
+<li class="nav-item"><a href="<?php echo site_url('customer/complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Ticket</span></a></li>
 </ul>
 <ul class="childNav" data-parent="product_spare_details">
 <li class="nav-item"><a href="<?php echo site_url('customer/enquiry'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Enquiry History</span></a></li>
