@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <input class="form-control" id="dept_name" type="text" placeholder=" " name="name" value="<?php echo $data['name']; ?>" /></div>
 
 <?php ?>
-<div class="col-md-4 form-group mb-3"><label for=" ">Top Dept</label>
+<!-- <div class="col-md-4 form-group mb-3"><label for=" ">Top Dept</label>
     <br>
 <input type="radio" name="topdept" value="1" <?php echo ($data['top_dept'] == 1) ? "checked" : ""; ?>>
 <label for="male">Yes</label> &nbsp;&nbsp;
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <input type="radio"  name="topdept" value="0" <?php echo ($data['top_dept'] == 0) ? "checked" : ""; ?>>
 <label for="female">No</label>
 
-</div>
+</div> -->
 <?php  ?>
 
 <div class="col-md-4 form-group mb-3"><label for=" ">Status</label>

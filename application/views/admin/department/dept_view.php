@@ -38,12 +38,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </div>
 
-<div class="col-md-6">   
+<!-- <div class="col-md-6">   
 <div class="row">
 <div class="col-md-4"><p><b>Top Department:</b></p> </div>  
 <div class="col-md-8"><p><?php echo ( $data['top_dept'] == 1) ? 'Yes' : 'No'; ?></p></div>
 </div>
-</div>
+</div> -->
 
 <div class="col-md-6">   
 <div class="row">

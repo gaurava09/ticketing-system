@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="col-md-4 form-group mb-3"><label for=" ">Name</label>
 <input class="form-control" id="dept_name" type="text" placeholder=" " name="name" /></div>
 
-<div class="col-md-4 form-group mb-3"><label for=" ">Top Dept</label>
+<!-- <div class="col-md-4 form-group mb-3"><label for=" ">Top Dept</label>
     <br>
 <input type="radio" name="topdept" value="1">
 <label for="male">Yes</label> &nbsp;&nbsp;
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <input type="radio"  name="topdept" value="0">
 <label for="female">No</label>
 
-</div>
+</div> -->
 
 
 
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // debug: true,
         rules: {
             name: {required: true},
-            topdept: {required: true},
+            //topdept: {required: true},
         },
         messages: {
 

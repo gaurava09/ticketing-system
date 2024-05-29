@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row">
 
-    <div class="col-md-4 form-group mb-3"><label for=" ">Name</label>
+    <div class="col-md-4 form-group mb-3"><label for=" ">Company Name</label>
     <input class="form-control"  type="text" placeholder=" " name="name" value="<?php echo $data['name']; ?>" /></div>
 
     <!-- <div class="col-md-4 form-group mb-3"><label for=" ">Domain</label>
@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	</select>
     </div>
     <div class="col-md-12 form-group mb-3 cc_div">
-      <label>Employees</label>
+      <label>A09 Employees</label>
       <label>Already Added</label><br>
         <?php
         // Check if $first_names is not empty

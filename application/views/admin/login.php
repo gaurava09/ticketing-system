@@ -68,7 +68,7 @@
 <div class="box_alg_center">    
 
 <div class="p-4">
-<div class="text-center mt-4 mb-4"><img src="<?php echo base_url('assets/images/logo.png'); ?>" alt=""></div>
+<div class="text-center mt-4 mb-4"><img style="width: 170px;" src="<?php echo base_url('assets/images/logo.png'); ?>" alt=""></div>
 
 
 <div class="text-center reg_company_name">

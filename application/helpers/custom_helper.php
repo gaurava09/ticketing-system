@@ -255,7 +255,8 @@ function complaint_types(){
     '1' => 'Question',
     '2' => 'Problem',
     '3' => 'Feature',
-    '4' => 'Others'
+    '4' => 'Document or Data or Image Update',
+    '5' => 'Others'
   );
 }
 

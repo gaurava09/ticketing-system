@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Forgot Password | Tsubaki</title>
+        <title>Forgot Password | Ticketing</title>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
         <link href="<?php echo site_url(); ?>assets/dist-assets/css/themes/lite-purple.min.css" rel="stylesheet">
@@ -75,7 +75,7 @@
 <div class="p-4">
 <div class="text-center mt-4 mb-4">
     <a href="<?php echo site_url('customer/login'); ?>">
-    <img src="<?php echo base_url('assets/images/mahindra_tsubaki.png'); ?>" alt=""></a>
+    <img style="width: 170px;" src="<?php echo base_url('assets/images/logo.png'); ?>" alt=""></a>
 </div>
 <div class="text-center">
 <h1 class="mb-3 text-20"><strong>Forgot Password</strong></h1>

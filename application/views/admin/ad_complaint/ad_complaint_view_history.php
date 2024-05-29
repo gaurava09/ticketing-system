@@ -100,7 +100,7 @@ if($history){
 
 		      	<div class="col-md-12">   
 		          <div class="row">
-		          <div class="col-md-8"><p><b>Complaint assigned to <?php echo $value['emp_name'].$suffix; ?>.</b> </p> </div>  
+		          <div class="col-md-8"><p><b>Ticket assigned to <?php echo $value['emp_name'].$suffix; ?>.</b> </p> </div>  
 		          <div class="col-md-4 text-right"><p>(<?php echo custDate($value['created_at']); ?>)</p></div>
 		          </div>
 		        </div>
@@ -272,7 +272,7 @@ if($history){
 
 		      	<div class="col-md-12">   
 		          <div class="row">
-		          <div class="col-md-8"><p><b>Complaint assigned to <?php echo $value['emp_name'].$suffix; ?>.</b> </p> </div>  
+		          <div class="col-md-8"><p><b>Ticket assigned to <?php echo $value['emp_name'].$suffix; ?>.</b> </p> </div>  
 		          <div class="col-md-4 text-right"><p>(<?php echo custDate($value['created_at']); ?>)</p></div>
 		          </div>
 		        </div>

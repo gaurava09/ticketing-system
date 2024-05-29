@@ -203,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!--accordion-->
 <li class="nav-item">
-<a class="min_box-h nav_h1 font_s1"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Employees </span></a>
+<a class="min_box-h nav_h1 font_s1"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">A09 Employees </span></a>
 <div class="min_box-tx">
 
 <ul>

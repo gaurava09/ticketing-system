@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row">
 
-<div class="col-md-6 form-group mb-3"><label for=" ">Name</label>
+<div class="col-md-6 form-group mb-3"><label for=" ">Company Name</label>
   <input class="form-control" type="text" placeholder=" " name="name" />
 </div>
 
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <input class="form-control" type="text" placeholder=" " name="location" />
 </div>
 <div class="col-md-12 form-group mb-3 cc_div">
-  <label>Employees</label>
+  <label>A09 Employees</label>
     <div class="row cc_row">  
       <div class="col-6 form-group">
           <select class="form-control employee-dropdown" name="Employee_add[]">
