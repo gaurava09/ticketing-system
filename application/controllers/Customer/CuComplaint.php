@@ -391,7 +391,7 @@ class CuComplaint extends My_Controller
 			$this->complaintMail($data,$admin,$email_arr,$ticket_no);
 			
 			
-			$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Complaint created successfully' ));
+			$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Ticket created successfully' ));
 
 			sendResponse(1,'Success');
 		}else{
@@ -405,8 +405,8 @@ class CuComplaint extends My_Controller
 			$notificationData = array(
 				'user_id' 			=> $admin['id'],
 				'user_type' 		=> 'admin',
-				'title' 			=> 'Complaint',
-				'description' 		=> 'A new complaint has been added to the query.'.ticketText($ticket_no),
+				'title' 			=> 'Ticket',
+				'description' 		=> 'A new Ticket has been added to the query.'.ticketText($ticket_no),
 				'context_id' 		=> $complaint_id,
 				'is_read' 			=> 0,
 				'created_by' 		=> $this->userid,

@@ -621,7 +621,7 @@ class AdComplaint extends My_Controller
 			//mail to customer and admin
 				$this->complaintMail($data,$customer_id,$email_arr,$ticket_no);
 
-				$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Complaint created successfully' ));
+				$this->session->set_flashdata('message', array('status' => 1, 'message' => 'Ticket created successfully' ));
 
 				sendResponse(1,'Success');
 		}else{
