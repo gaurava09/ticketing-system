@@ -56,7 +56,7 @@ class Department extends My_Controller
         }
 
         $name 					=  $this->input->post('name',TRUE);
-		$top_dept 				=  0;
+		$top_dept 				=  1;
 		$status 				=  $this->input->post('status',TRUE);
       	
         //Store
@@ -122,7 +122,7 @@ class Department extends My_Controller
         }
 
         $name 					=  $this->input->post('name',TRUE);
-		$top_dept 				=  0;
+		$top_dept 				=  1;
 		$status 				=  $this->input->post('status',TRUE);
       	
         //Store

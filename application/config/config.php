@@ -127,7 +127,7 @@ if(ENVIRONMENT == 'production'){
 	define('SMTP_PASSWORD','zojeopveyeiggcit');
 }
 define('SMTP_SENDER_EMAIL','tech.agency09@gmail.com');
-define('SMTP_SENDER_NAME','AGENCY09-Customer Support');
+define('SMTP_SENDER_NAME','AGENCY09 Support');
 
 // define('NO_REPLY_EMAIL_ID', 'CUSTOMERSUPPORT-MTC@mahindra.com');
 define('NO_REPLY_EMAIL_ID', 'tech.agency09@gmail.com');

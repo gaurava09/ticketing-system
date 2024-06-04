@@ -348,7 +348,7 @@ class CuComplaint extends My_Controller
 			//d($cust_detail);
 			$company_n = $this->Company_model->get_company(['id' => $company_id],'name');
 			//dd($company_n);
-			$ftl = substr($company_n['name'], 0, 2);
+			$ftl = strtoupper(substr($company_n['name'], 0, 2));
 			if ($cust_detail['ticket_no'] != '') {
 				$n_t_no = substr($cust_detail['ticket_no'], 2); // Remove the first two characters
 				$t_no = $n_t_no + 1;
@@ -427,11 +427,14 @@ class CuComplaint extends My_Controller
 
 		//admin mail
 		if($admin){
-			$admSubject = 'Complaint Type - '.$data['complaint_type'].' A New Complaint Has Been Registered.'.ticketText($ticket_no);
+			$admSubject = 'A New Ticket Has Been Registered.'.ticketText($ticket_no);
 			$admMsg 	= "
 				Hello ".ucfirst($admin['first_name']).", <br><br>
 
-				We've received a complaint by the customer (Ticket no.".$ticket_no.").<br><br>
+				We've received a ticket from the customer 
+
+				Ticket no - ".$ticket_no."<br>
+				Ticket Type - ".$data['complaint_type']."<br><br>
 
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
@@ -444,13 +447,15 @@ class CuComplaint extends My_Controller
 
 		//customer mail
 		if($customer){
-			$custSubject = 'Complaint Type - '.$data['complaint_type'].' Request Generated Successfully - Ticket No. '.$ticket_no;
+			$custSubject = 'Ticket Request Generated Successfully - Ticket No. '.$ticket_no;
 			$custMsg 	= "
 				Hello ".ucfirst($customer['first_name']).", <br><br>
 
-				Thanks for reaching out to us. This email is to ensure that your complaint / service request has been successfully generated. We will revert shortly after we take a much closer look to understand and work on the issue. <br><br>
+				Thanks for reaching out to us. This email is to ensure that your ticket request has been successfully generated. We will revert shortly after we take a much closer look to understand and work on the issue. <br><br>
 
-				Your Ticket no is ".$ticket_no.".<br><br>
+				Ticket no - ".$ticket_no."<br>
+				Ticket Type - ".$data['complaint_type']."<br><br>
+
 				
 				We assure you of our best services at all times.<br><br>
 
@@ -849,13 +854,13 @@ class CuComplaint extends My_Controller
 		if(ALLOW_MAILS == 0){
 			return false;
 		}
-		if($diff_date > 5){
-			$to = 'VAIDYA.RAVINDRA@mahindra.com';
-			$cc = ['BHAVE.PRADEEP@mahindra.com','PANDIT.NISHIKANT@mahindra.com'];
-		}else{
-			$to = 'BHAVE.PRADEEP@mahindra.com';
-			$cc = ['PANDIT.NISHIKANT@mahindra.com'];
-		}
+		// if($diff_date > 5){
+		// 	$to = 'VAIDYA.RAVINDRA@mahindra.com';
+		// 	$cc = ['BHAVE.PRADEEP@mahindra.com','PANDIT.NISHIKANT@mahindra.com'];
+		// }else{
+		// 	$to = 'BHAVE.PRADEEP@mahindra.com';
+		// 	$cc = ['PANDIT.NISHIKANT@mahindra.com'];
+		// }
 
 		// $to = 'nilesh@agency09.in';
 		// $cc = ['rasika@agency09.in','tech.agency09@gmail.com'];

@@ -582,7 +582,7 @@ class AdComplaint extends My_Controller
 			//d($cust_detail);
 			$company_n = $this->Company_model->get_company(['id' => $company_id],'name');
 			//dd($company_n);
-			$ftl = substr($company_n['name'], 0, 2);
+			$ftl = strtoupper(substr($company_n['name'], 0, 2));
 			if ($cust_detail['ticket_no'] != '') {
 				$n_t_no = substr($cust_detail['ticket_no'], 2); // Remove the first two characters
 				$t_no = $n_t_no + 1;
@@ -925,14 +925,17 @@ class AdComplaint extends My_Controller
 
 				$emp_body = 'Hello '.ucfirst($empdetails['first_name']).', <br><br>
 				
-				There is a new complaint in the queue to be resolved from the customer (GA no. '.$complaint['ga_no'].') (Ticket no. '.$complaint['ticket_no'].') '.$product_text.'. <br><br>
+				There is a new ticket in the queue to be resolved and following are the details
+
+				Ticket no - '.$complaint['ticket_no'].'<br>
+				Ticket Type - '.$complaint['complaint_type'].'<br><br>
 
 				Best Regards,<br>
 				Team AGENCY09.';
 
 				$mail_details[] = array(
 					'email' => $empdetails['email'],
-					'subject' => 'Complaint of GA no. '.$complaint['ga_no'].' Assigned to you.'.ticketText($complaint['ticket_no']),
+					'subject' => ticketText($complaint['ticket_no']).' assigned to you.',
 					'body' => $emp_body
 				);
 
@@ -1472,7 +1475,11 @@ class AdComplaint extends My_Controller
 			$custSubject = 'Ticket updates : Ticket No. '.$complaint['ticket_no'];
 			$custMsg 	= 'Hello '.ucfirst($customer['first_name']).', <br><br>
 
-				There is a remark on your ticket no. '.$complaint['ticket_no'].'<br><br>
+				There is a remark on your ticket<br><br>
+
+				Ticket no - '.$complaint['ticket_no'].'<br>
+				Ticket Remark - '.$complaint['description'].'<br>
+				Ticket Status - '.$complaint['status'].'<br><br>
 
 				Please check customer support portal for further details. <br><br>
 
@@ -1588,7 +1595,22 @@ class AdComplaint extends My_Controller
 		if(ALLOW_MAILS == 0){
 			return false;
 		}
-		$ticket_no = str_pad($complaint_id, 6, '0', STR_PAD_LEFT);
+		//$ticket_no = str_pad($complaint_id, 6, '0', STR_PAD_LEFT);
+		$cust_detail = $this->Complaint_model->get_ticket_no(['company_id' => $company_id],'ticket_no');
+		//d($cust_detail);
+		$company_n = $this->Company_model->get_company(['id' => $company_id],'name');
+		//dd($company_n);
+		$ftl = strtoupper(substr($company_n['name'], 0, 2));
+		if ($cust_detail['ticket_no'] != '') {
+			$n_t_no = substr($cust_detail['ticket_no'], 2); // Remove the first two characters
+			$t_no = $n_t_no + 1;
+			//update ticket no
+			$ticket_no = $ftl.''.str_pad($t_no, 4, '0', STR_PAD_LEFT);
+			//dd($ticket_no);
+		}else{
+			$cust_detail = 1;
+			$ticket_no = $ftl.''.str_pad($cust_detail, 4, '0', STR_PAD_LEFT);
+		}
 
 		$emp = $this->User_model->get_emp_details(['u.id' => $this->userid]);
 
@@ -1596,7 +1618,7 @@ class AdComplaint extends My_Controller
 			'complaint_id' => $complaint_id,
 			'type' => 'assign',
 			// 'assigned_by' => 'admin',
-			'top_dept' => 1,
+			//'top_dept' => 1,
 		), 'emp_id');
 
 		// d($emp);
@@ -1618,7 +1640,7 @@ class AdComplaint extends My_Controller
 			
 
 
-			$subject = 'Comment on the ticket no. '.$ticket_no.' from '.$emp['department_name'].' department';
+			$subject = 'Comment on the ticket no. '.$ticket_no.' from '.$emp['department_name'].' Department';
 			$msg 	= '
 			Hello Team, <br><br>
 
@@ -1646,7 +1668,7 @@ class AdComplaint extends My_Controller
 
 			//admin mail and notification
 			$admin = $this->User_model->get_user(['role' => 'admin']);
-
+			
 			if($admin){
 				$notificationData['user_type'] = 'admin';
 				$notificationData['user_id'] = $admin['id'];
