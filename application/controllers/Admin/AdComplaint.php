@@ -928,7 +928,7 @@ class AdComplaint extends My_Controller
 				There is a new ticket in the queue to be resolved and following are the details
 
 				Ticket no - '.$complaint['ticket_no'].'<br>
-				Ticket Type - '.$complaint['complaint_type'].'<br><br>
+				Ticket Type - '.complaintTName($complaint['complaint_type']).'<br><br>
 
 				Best Regards,<br>
 				Team AGENCY09.';
@@ -1478,8 +1478,8 @@ class AdComplaint extends My_Controller
 				There is a remark on your ticket<br><br>
 
 				Ticket no - '.$complaint['ticket_no'].'<br>
-				Ticket Remark - '.$complaint['description'].'<br>
-				Ticket Status - '.$complaint['status'].'<br><br>
+				Ticket Remark - '.$data['remark'].'<br>
+				Ticket Status - '.complaintStatus($data['new_status']).'<br><br>
 
 				Please check customer support portal for further details. <br><br>
 

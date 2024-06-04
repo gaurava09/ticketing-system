@@ -434,7 +434,7 @@ class CuComplaint extends My_Controller
 				We've received a ticket from the customer 
 
 				Ticket no - ".$ticket_no."<br>
-				Ticket Type - ".$data['complaint_type']."<br><br>
+				Ticket Type - ".complaintTName($data['complaint_type'])."<br><br>
 
 				Please process the complaint and assign an Engineer for the same.<br><br>
 
@@ -454,7 +454,7 @@ class CuComplaint extends My_Controller
 				Thanks for reaching out to us. This email is to ensure that your ticket request has been successfully generated. We will revert shortly after we take a much closer look to understand and work on the issue. <br><br>
 
 				Ticket no - ".$ticket_no."<br>
-				Ticket Type - ".$data['complaint_type']."<br><br>
+				Ticket Type - ".complaintTName($data['complaint_type'])."<br><br>
 
 				
 				We assure you of our best services at all times.<br><br>

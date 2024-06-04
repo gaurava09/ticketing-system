@@ -305,6 +305,35 @@ function ps($arr,$key){
     return false;
 }
 
+function complaintTName($number) {
+  $complaint = array(
+      '1' => 'Question',
+      '2' => 'Problem',
+      '3' => 'Feature',
+      '4' => 'Document or Data or Image Update',
+      '5' => 'Others'
+  );
+
+  if(array_key_exists($number, $complaint)) {
+      return $complaint[$number];
+  }
+}
+
+function complaintStatus($number) {
+  $status = array(
+    '1' => 'Completed',
+    '2' => 'Open',
+    '3' => 'Ongoing',
+    '4' => 'Closed',
+  );
+
+  if(array_key_exists($number, $status)) {
+      return $status[$number];
+  }
+}
+
+
+
 
 function page_types(){
   return array(
