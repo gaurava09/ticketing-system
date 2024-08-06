@@ -53,7 +53,7 @@ if($topLevel == 1){ ?>
 <div class="row mb-3">    
   <div class="col-md-4 col-sm-12 form-group mb-3">
   <label for=" ">Action</label>
-    <select class="form-control selectType" >
+    <select class="form-control selectType" id='selectType' >
       <option value="">Select</option>
       <?php if($this->role == 'admin' || $this->role == 'super_admin'){ ?>
         <option value="1">Assign</option>
@@ -61,7 +61,7 @@ if($topLevel == 1){ ?>
         <option value="4">Reply To Employee</option>
       <?php } ?>
       <?php if($this->role == 'employee'){ ?>
-        <option value="2">Reply To Admin</option>
+        <option value="3">Reply To Admin</option>
       <?php } ?>
       <?php
         // if($this->role == 'admin'){
@@ -135,6 +135,7 @@ if($topLevel == 1){ ?>
 <?php echo form_open_multipart('complaint/remark',array('id' => 'remarkForm','class' => 'd-none','autocomplete' => 'off') ); ?>
 
   <input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
+  <input type="hidden" name="action_type" id="action_type" value="">
   <div class="row ">
 
       <?php
@@ -404,3 +405,4 @@ if($topLevel == 1){ ?>
 
 
 <?php } ?>
+

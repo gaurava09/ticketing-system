@@ -914,6 +914,7 @@ class AdComplaint extends My_Controller
 				$this->Complaint_model->add_complaint_action([
 	                'complaint_id' => $complaint['id'],
 	                'emp_id' => $value['emp_id'],
+	                'admin_id' => $this->userid,
 	                'created_at' => getDt()
 	               ]);
 
@@ -963,7 +964,7 @@ class AdComplaint extends My_Controller
 		//send notification and mail to customer
 		// if($this->role == 'admin'){
 		if($notify_customer){
-			$this->assignNotification($complaint['customer_id'],'customer','Your ticket have been assigned to an engineer',$complaint_id);
+			//$this->assignNotification($complaint['customer_id'],'customer','Your ticket have been assigned to an engineer',$complaint_id);
 
 			//mail to customer about assign emp
 			$customer = $this->Customer_model->get_customer(['id' => $complaint['customer_id']]);
@@ -985,12 +986,12 @@ class AdComplaint extends My_Controller
 				Best Regards,<br>
 				Team AGENCY09.';
 
-				$mail_details[] = array(
-					'email' => $customer['email'],
-					'subject' => 'Your Complaint have been assigned to the respective department. Ticket No. '.$complaint['ticket_no'],
-					'body' => $custBody,
-					'cc' => $email_arr
-				);
+				// $mail_details[] = array(
+				// 	'email' => $customer['email'],
+				// 	'subject' => 'Your Complaint have been assigned to the respective department. Ticket No. '.$complaint['ticket_no'],
+				// 	'body' => $custBody,
+				// 	'cc' => $email_arr
+				// );
 			}
 		}
 
@@ -1055,6 +1056,8 @@ class AdComplaint extends My_Controller
 	public function remark(){
 		$complaint_id 	= trim($this->input->post('complaint_id',TRUE));
 		$new_status 	= trim($this->input->post('status',TRUE));
+		$action_type 	= trim($this->input->post('action_type',TRUE));
+		
 		//$visit_date 	= trim($this->input->post('visit_date',TRUE));
 
 		$complaint = $this->Complaint_model->get_complaint(['id' => $complaint_id]);
@@ -1173,7 +1176,7 @@ class AdComplaint extends My_Controller
 
 			//add notification to customer
 			$remark_msg = 'There is an update on the existing complaint.'.ticketText($complaint['ticket_no']);
-			$this->remarkNotification($data,$complaint,$remark_msg);
+			//$this->remarkNotification($data,$complaint,$remark_msg);
 
 			//remark notification among team ie admin and employee
 			if($this->role == 'employee' && $new_status == 1){
@@ -1182,13 +1185,19 @@ class AdComplaint extends My_Controller
 			else if($this->role == 'employee'){
 				$this->userRemarkNotification($data,$complaint,0); //skip admin
 			}
+			// dd($data);
+			// dd($complaint);
 
 			//remark email to customer and admin[bcc]
 			// if($complaint_type == $engg_visit && $visit_date != ''){ //engg visit for all complaint
 			// if($visit_date != ''){
 			// 	$this->enggVisitMail($data,$complaint);
 			// }else{
+			if ($action_type == 3) {
+				$this->remarkAdminMail($data,$complaint);
+			}else{
 				$this->remarkMail($data,$complaint);
+			}
 			//}
 			
 
@@ -1329,13 +1338,14 @@ class AdComplaint extends My_Controller
 			else if($this->role == 'employee'){
 				$this->userRemarkNotification($data,$complaint,0); //skip admin
 			}
-
+			// dd($data);
+			// dd($complaint);
 			//remark email to customer and admin[bcc]
 			// if($complaint_type == $engg_visit && $visit_date != ''){ //engg visit for all complaint
 			// if($visit_date != ''){
 			// 	$this->enggVisitMail($data,$complaint);
 			// }else{
-				$this->remarkMail($data,$complaint);
+				$this->remarkEmpMail($data,$complaint);
 			//}
 			
 
@@ -1451,8 +1461,10 @@ class AdComplaint extends My_Controller
 			$sendMail = $this->sendMail($admin['email'], $admSubject, $admMsg);
 		}
 	}
-
+	
 	private function remarkMail($data,$complaint){
+		// dd($data);
+		// dd($complaint);
 		if(ALLOW_MAILS == 0){
 			return false;
 		}
@@ -1489,7 +1501,90 @@ class AdComplaint extends My_Controller
 			$sendMail = $this->sendMail($customer['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr,$bcc);
 		}
 	}
+	
+	private function remarkEmpMail($data,$complaint){
+		// dd($data);
+		// dd($complaint['complaint_id']);
+		if(ALLOW_MAILS == 0){
+			return false;
+		}
+		$asigned_emp = $this->Complaint_model->get_complaint_action(['complaint_id' => $data['complaint_id']]);
 
+		$employee = $this->User_model->get_user(['id' => $asigned_emp['emp_id']]);
+
+		$bcc = [];
+		$admin = $this->User_model->get_user(['role' => 'admin']);
+		if($admin){
+			$bcc[] = $admin['email'];
+		}
+
+		//employee mail
+		if($employee){
+
+			$email_arr = [];
+			if($complaint['email_cc']){
+				$email_arr = explode(",", $complaint['email_cc']);
+			}
+
+			$custSubject = 'Ticket updates : Ticket No. '.$complaint['ticket_no'];
+			$custMsg 	= 'Hello '.ucfirst($employee['first_name']).', <br><br>
+
+				There is a remark on your ticket<br><br>
+
+				Ticket no - '.$complaint['ticket_no'].'<br>
+				Ticket Remark - '.$data['remark'].'<br>
+				Ticket Status - '.complaintStatus($data['new_status']).'<br><br>
+
+				Please check Customer support portal for further details. <br><br>
+
+				Best Regards, <br>
+				Team AGENCY09.';
+
+			$sendMail = $this->sendMail($employee['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr,$bcc);
+		}
+	}
+
+	private function remarkAdminMail($data,$complaint){
+		// dd($data);
+		// dd($complaint['complaint_id']);
+		if(ALLOW_MAILS == 0){
+			return false;
+		}
+		$asigned_emp = $this->Complaint_model->get_complaint_action(['complaint_id' => $data['complaint_id']]);
+
+		$employee = $this->User_model->get_user(['id' => $asigned_emp['admin_id']]);
+
+		$bcc = [];
+		$admin = $this->User_model->get_user(['role' => 'admin']);
+		if($admin){
+			$bcc[] = $admin['email'];
+		}
+
+		//employee mail
+		if($employee){
+
+			$email_arr = [];
+			if($complaint['email_cc']){
+				$email_arr = explode(",", $complaint['email_cc']);
+			}
+
+			$custSubject = 'Ticket updates : Ticket No. '.$complaint['ticket_no'];
+			$custMsg 	= 'Hello '.ucfirst($employee['first_name']).', <br><br>
+
+				There is a remark on your ticket<br><br>
+
+				Ticket no - '.$complaint['ticket_no'].'<br>
+				Ticket Remark - '.$data['remark'].'<br>
+				Ticket Status - '.complaintStatus($data['new_status']).'<br><br>
+
+				Please check Customer support portal for further details. <br><br>
+
+				Best Regards, <br>
+				Team AGENCY09.';
+
+			$sendMail = $this->sendMail($employee['email'], $custSubject, $custMsg,FALSE,FALSE,$email_arr,$bcc);
+		}
+	}
 	public function solution(){
 
 		$this->is_employee(1);

@@ -1,5 +1,10 @@
 <script type="text/javascript">
 
+document.getElementById('selectType').addEventListener('change', function() {
+  var actionType = this.value;
+  document.getElementById('action_type').value = actionType;
+});
+
 $(document).ready(function(){
     var userrole = '<?php echo $this->role; ?>';
     
@@ -20,6 +25,9 @@ $(document).ready(function(){
           $('#assignForm').removeClass('d-none');
         }
         else if(val == 2){
+          $('#remarkForm').removeClass('d-none');
+        } 
+        else if(val == 3){
           $('#remarkForm').removeClass('d-none');
         }
         else if(val == 4){

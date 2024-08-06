@@ -119,12 +119,12 @@ if(ENVIRONMENT == 'production'){
 
   define('SMTP_HOST','smtp.gmail.com');
   define('SMTP_USERNAME','tech.agency09@gmail.com');
-  define('SMTP_PASSWORD','zojeopveyeiggcit');
+  define('SMTP_PASSWORD','buxneoxfxzoygfnv');
 	
 }else{
 	define('SMTP_HOST','smtp.gmail.com');
 	define('SMTP_USERNAME','tech.agency09@gmail.com');
-	define('SMTP_PASSWORD','zojeopveyeiggcit');
+	define('SMTP_PASSWORD','buxneoxfxzoygfnv');
 }
 define('SMTP_SENDER_EMAIL','tech.agency09@gmail.com');
 define('SMTP_SENDER_NAME','AGENCY09 Support');
