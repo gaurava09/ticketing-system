@@ -3,7 +3,7 @@
             <!--========================= Footer Start =========================-->
             <div class="flex-grow-1"></div>
             <div class="app-footer"><div class="row"><div class="col-md-12">
-            <div class="float-left"><p>@2023 AGENCY09 | All rights reserved</p></div>
+            <div class="float-left"><p>@2024 AGENCY09 | All rights reserved</p></div>
             <div class="float-right"><a href="#" data-toggle="modal" data-target="#tandcModal">Terms & Conditions</a></div>
             </div></div></div>
             <!--========================= fotter end =========================-->

@@ -108,7 +108,7 @@ switch ($_SERVER['SERVER_NAME']) {
 		define('DB_USERNAME', 'root');
 		define('DB_PASSWORD', '');
 		define('DB_DATABASE', 'db_ticketing_system');
-		$config['base_url'] = 'https://localhost/ticketing-system';
+		$config['base_url'] = 'http://localhost/ticketing-system';
 		break;
 }
 

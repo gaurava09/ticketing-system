@@ -411,7 +411,7 @@ class CuComplaint extends My_Controller
 			$admMsg 	= "
 				Hello ".ucfirst($admin['first_name']).", <br><br>
 
-				We've received a complaint by the customer (GA no.".$data['ga_no'].")  (Ticket no.".$ticket_no.").<br><br>
+				We've received a complaint by the customer (Ticket no.".$ticket_no.").<br><br>
 
 				Please process the complaint and assign an Engineer for the same.<br><br>
 

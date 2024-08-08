@@ -286,6 +286,9 @@ $(document).ready(function(){
 		else if(val == 4){
 			$('.desc_div, .file_div').removeClass('d-none');
 		}
+		else if(val == 5){
+			$('.desc_div, .file_div').removeClass('d-none');
+		}
 	});
 
 	// $('.validateGA').on('click',function(){

@@ -21,6 +21,9 @@
                         </div>';
    
                 }
+
+                // Manually unset the flash data
+                $this->session->set_flashdata('message', null);
             }
         ?>
     </div>

@@ -368,11 +368,11 @@ class CuEnquiry extends My_Controller
 		$customer_name = cap($customer['first_name'].' '.$customer['last_name']);
 
 
-		$admSubject = 'Spare Enquiry - Ticket no. '.$enquiry_no.' (GA No. - '.$data['ga_no'].')';
+		$admSubject = 'Spare Enquiry - Ticket no. '.$enquiry_no;
 		$admMsg 	= 
 			'Hello Team, <br><br>
 			
-			This is to inform you there is a new enquiry received from '.$customer_name.' (GA no. '.$data['ga_no'].') '.$product_text.'.  <br><br>
+			This is to inform you there is a new enquiry received from '.$customer_name.' '.$product_text.'.  <br><br>
 
 			Spare ticket enquiry no. is '.$enquiry_no.'.<br><br>
 
