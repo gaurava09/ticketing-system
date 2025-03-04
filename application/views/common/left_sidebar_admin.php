@@ -53,6 +53,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </li>
 <?php } ?>
 
+<?php if($this->role == 'super_admin' || $this->role == 'admin') { ?>
+<li class="nav-item"><a class="nav-item-hold" href="<?php echo site_url('reports'); ?>"><i class="nav-icon i-File-Clipboard-File--Text"></i><span class="nav-text">Reports</span></a>
+<div class="triangle"></div>
+</li>
+<?php } ?>
+
 <?php if($this->role == 'super_admin') { ?>
 
 <!-- <li class="nav-item" data-item="cms_pages"><a class="nav-item-hold" href="#"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="nav-text">Pages</span></a>
@@ -89,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <ul class="childNav" data-parent="ticket_management">
 <li class="nav-item"><a href="<?php echo site_url('complaint'); ?>"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Ticket List</span></a></li>
 
-<?php if($this->role == 'super_admin') { ?>
+<?php if($this->role == 'super_admin' || $this->role == 'admin') { ?>
 <li class="nav-item"><a href="<?php echo site_url('complaint/create'); ?>"><i class="nav-icon i-Add-File"></i><span class="item-name">Add Ticket</span></a></li>
 <?php } ?>
 
