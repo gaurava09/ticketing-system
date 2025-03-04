@@ -252,11 +252,11 @@ function getBrowser($browser) {
 
 function complaint_types(){
   return array(
-    '1' => 'Question',
-    '2' => 'Problem',
-    '3' => 'Feature',
-    '4' => 'Document or Data or Image Update',
-    '5' => 'Others'
+    '1' => 'Problem',
+    '2' => 'New Feature',
+    '3' => 'On Page SEO Update',
+    '4' => 'Maintenance Task',
+    '5' => 'Corrections'
   );
 }
 
@@ -307,11 +307,11 @@ function ps($arr,$key){
 
 function complaintTName($number) {
   $complaint = array(
-      '1' => 'Question',
-      '2' => 'Problem',
-      '3' => 'Feature',
-      '4' => 'Document or Data or Image Update',
-      '5' => 'Others'
+      '1' => 'Problem',
+      '2' => 'New Feature',
+      '3' => 'On Page SEO Update',
+      '4' => 'Maintenance Task',
+      '5' => 'Corrections'
   );
 
   if(array_key_exists($number, $complaint)) {
