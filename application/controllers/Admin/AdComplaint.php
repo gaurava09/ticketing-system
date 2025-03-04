@@ -353,7 +353,7 @@ class AdComplaint extends My_Controller
 	}
 	
 	public function create() {
-		$this->is_admin(1);
+		$this->is_a_admin(1);
 
 		$list = [];
 
@@ -368,7 +368,7 @@ class AdComplaint extends My_Controller
 	}
 
 	public function store(){
-		$this->is_admin(1);
+		$this->is_a_admin(1);
 		// echo count($_FILES); d($_POST); d($_FILES);
 		$data 		= [];
 		$file_array = [];
