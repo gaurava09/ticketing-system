@@ -254,6 +254,15 @@ $(document).ready(function(){
     else if(val == 5){
       $('.desc_div, .file_div').removeClass('d-none');
     }
+    else if(val == 6){
+      $('.desc_div, .file_div').removeClass('d-none');
+    }
+    else if(val == 7){
+      $('.desc_div, .file_div').removeClass('d-none');
+    }
+    else if(val == 8){
+      $('.desc_div, .file_div').removeClass('d-none');
+    }
   });
 
 	

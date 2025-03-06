@@ -356,9 +356,16 @@ class AdComplaint extends My_Controller
 		$this->is_a_admin(1);
 
 		$list = [];
-
-		$company = $this->Company_model->get_all_company(['status' => 1]);
-
+		$company = array();
+		$user_id = $this->userid;
+		if ($user_id == 1) {
+			//dd($this->userid);
+			$company = $this->Company_model->get_all_company(['status' => 1]);
+		}else{
+			$login_user = "FIND_IN_SET('".$user_id."', employees) > 0";
+			$company = $this->Company_model->get_all_company('','','','', '', '',$login_user);
+		}
+		//dd($company);
 		$data = [];
 		$data['template'] 	= 'ad_complaint/ad_complaint_add';
 		$data['title'] 		= "Add Complaint";

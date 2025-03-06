@@ -252,12 +252,15 @@ function getBrowser($browser) {
 
 function complaint_types(){
   return array(
-    '1' => 'Problem',
-    '2' => 'New Feature',
-    '3' => 'On Page SEO Update',
-    '4' => 'Maintenance Task',
-    '5' => 'Corrections'
-  );
+    '1' => 'Bug Fix',
+    '2' => 'Content Update',
+    '3' => 'Images Update',
+    '4' => 'New Blog or News or Event creation',
+    '5' => 'New Page Creation',
+    '6' => 'New Feature',
+    '7' => 'On Page SEO Updation',
+    '8' => 'Other'
+);
 }
 
 function complaint_status_list($flag=''){
@@ -307,11 +310,14 @@ function ps($arr,$key){
 
 function complaintTName($number) {
   $complaint = array(
-      '1' => 'Problem',
-      '2' => 'New Feature',
-      '3' => 'On Page SEO Update',
-      '4' => 'Maintenance Task',
-      '5' => 'Corrections'
+    '1' => 'Bug Fix',
+    '2' => 'Content Update',
+    '3' => 'Images Update',
+    '4' => 'New Blog or News or Event creation',
+    '5' => 'New Page Creation',
+    '6' => 'New Feature',
+    '7' => 'On Page SEO Updation',
+    '8' => 'Other'
   );
 
   if(array_key_exists($number, $complaint)) {

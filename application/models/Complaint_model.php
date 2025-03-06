@@ -108,7 +108,7 @@ class Complaint_model extends CI_Model {
         return $result;
     }
 
-     public function get_complaints($whereArr = '',$column="*", $startLimit ='', $endLimit ='', $likeArr ='')
+     public function get_complaints($whereArr = '',$column="*", $startLimit ='', $endLimit ='', $likeArr ='', $conditions = [])
     {   
         $result = array();
 
@@ -121,6 +121,15 @@ class Complaint_model extends CI_Model {
         if($likeArr){
             foreach ($likeArr as $key => $value) {
                 $this->db->like($key,$value);
+            }
+        }
+        if (!empty($conditions)) {
+            foreach ($conditions as $key => $value) {
+                if (is_array($value)) {
+                    $this->db->where_in($key, $value);
+                } else {
+                    $this->db->where($key, $value);
+                }
             }
         }
         

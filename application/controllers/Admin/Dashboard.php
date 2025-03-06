@@ -46,18 +46,22 @@ class Dashboard extends My_Controller
 		
 		//complaint
 		$companyIds = $this->Company_model->check_company($this->userid);
-		//dd($company_n);
+		//dd($companyIds);
 		//$companyIds = [32, 4];
 		$open  = $this->Complaint_model->count_a(['status' => 2], '', $companyIds);
 		//dd($open);
 		$ongoing  = $this->Complaint_model->count_a(['status' => 3], '', $companyIds);
 		$completed  = $this->Complaint_model->count_a(['status' => 1], '', $companyIds);
 		$closed  = $this->Complaint_model->count_a(['status' => 4], '', $companyIds);
-
 		//latest ticket
-		$columns = 'id,ticket_no,ga_no,complaint_type,customer_id,status,created_at';
-		$tickets = $this->Complaint_model->get_complaints([],$columns,'0','5');
-
+		$columns = 'id,ticket_no,complaint_type,customer_id,company_id,status,created_at';
+		//$tickets = $this->Complaint_model->get_complaints([],$columns,'0','5');
+		if ($this->userid == 1 || $companyIds == []) {
+			$tickets = $this->Complaint_model->get_complaints([], $columns, '0', '5','');
+		}else{
+			$tickets = $this->Complaint_model->get_complaints([], $columns, '0', '5','',['company_id' => $companyIds]);
+		}
+		//dd($tickets);
 		foreach ($tickets as $key => $value) {
 			$customer = $this->Customer_model->get_customer_details(['c.id' => $value['customer_id']]);
 	
