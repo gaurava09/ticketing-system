@@ -42,10 +42,41 @@ class CuAuth extends My_Controller
             //validate google captcha
   
 			// Make and decode POST request:
-			$recaptcha = file_get_contents(RECAPTCHA_URL . '?secret=' . RECAPTCHA_SECRET . '&response=' . $recaptcha_response);
-			$recaptcha = json_decode($recaptcha);
-			if ($recaptcha->success != 1) {
-				sendResponse(2,'Invalid google captcha');
+			$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+			$recaptcha_secret = '6LddUPkqAAAAACuIn0lt8gh7ovXAgQGgTl-tVevx'; // Replace with your actual secret key
+			//$recaptcha_response = $_POST['g-recaptcha-response'] ?? ''; // Ensure it's received
+
+			if (empty($recaptcha_response)) {
+			    sendResponse(2, 'No reCAPTCHA response received');
+			}
+
+			// Prepare request data
+			$data = [
+			    'secret'   => $recaptcha_secret,
+			    'response' => $recaptcha_response
+			];
+
+			// Make a POST request using file_get_contents()
+			$context = stream_context_create([
+			    'http' => [
+			        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			        'method'  => 'POST',
+			        'content' => http_build_query($data),
+			    ],
+			]);
+
+			$recaptcha_result = file_get_contents($recaptcha_url, false, $context);
+			//dd($recaptcha_result);
+			if ($recaptcha_result === false) {
+			    sendResponse(2, 'Failed to verify reCAPTCHA');
+			}
+
+			// Decode JSON response
+			$recaptcha = json_decode($recaptcha_result, true);
+			//dd($recaptcha);
+			// Validate reCAPTCHA success and score
+			if (!$recaptcha || !$recaptcha['success'] || $recaptcha['score'] < 0.5) {
+			    sendResponse(2, 'Invalid Google reCAPTCHA');
 			}
 
 			//validate password

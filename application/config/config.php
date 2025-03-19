@@ -135,8 +135,8 @@ define('NO_REPLY_EMAIL_ID', 'tech.agency09@gmail.com');
 define('ALLOW_MAILS', '1');
 
 define('RECAPTCHA_URL', 'https://www.google.com/recaptcha/api/siteverify');
-define('RECAPTCHA_SECRET', '6Lckd8ooAAAAALQ86wLYAEi4ZfFhKK-4PLktXSZS');
-define('RECAPTCHA_SITEKEY', '6Lckd8ooAAAAAFLNfI6obOlxZy9W6HIfdLfpKoqO');
+define('RECAPTCHA_SECRET', '6LddUPkqAAAAACuIn0lt8gh7ovXAgQGgTl-tVevx');
+define('RECAPTCHA_SITEKEY', '6LddUPkqAAAAAPsgTYwQC2gAp1vGBtW0xAoPp-1_');
 define('API_KEY', 'GIaAAAAANeNK7EaU6Uqo'); //for cronjobs api as a paramtr
 
 
@@ -604,7 +604,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = TRUE;
+$config['csrf_protection'] = FALSE;
 $config['csrf_token_name'] = 'token';
 $config['csrf_cookie_name'] = 'cscookie';
 $config['csrf_expire'] = 7200;
