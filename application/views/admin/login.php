@@ -68,7 +68,7 @@
 <div class="box_alg_center">    
 
 <div class="p-4">
-<div class="text-center mt-4 mb-4"><img style="width: 170px;" src="<?php echo base_url('assets/images/logo.png'); ?>" alt=""></div>
+<div class="text-center mt-4 mb-4"><img src="<?php echo base_url('assets/images/logo.png'); ?>" alt=""></div>
 
 
 <div class="text-center reg_company_name">
@@ -96,7 +96,7 @@
 <div class="form-group">
     <label for="password">Password</label>
 
-     <div class="form-group form_pass">
+     <div class="form-group">
         <!-- <label for="password">Password*</label> -->
         <div class="input-group input-group-merge">
             <input class="form-control form-control-rounded" id="password" type="password">
@@ -112,8 +112,7 @@
     <span class="error user_pass"></span>
 </div>
 
-
-        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
     <div class="form-group mt-3">
         <!-- <div class="g-recaptcha" data-sitekey="<?php echo $RECAPTCHA_SITEKEY;?>"></div> -->
         <span class="error gresp"></span>
@@ -162,71 +161,91 @@
 <script type="text/javascript">
     $(document).on('click', '.toggle-password', function() {
         $(this).find('i').toggleClass("fa-eye fa-eye-slash");
-        var input = $(this).parents('.form_pass').find('input');
+        var input = $(this).parents('.form-group').find('input');
         input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
     });
+
+
+    $('#submit_login').click(function(e){
+        e.preventDefault();
+
+        $email = $.trim($('#email').val());
+        $password  = $('#password').val();
+        $token  = $('#login [name=token]').val();
+
+        $error = 0;
+
+        if($email == ""){
+            $('.user_email').html('Enter email id');
+            $error = 1;
+        }else if(!nilesh.validateEmail($email)){
+            $('.user_email').html('Invalid email id');
+             $error = 1;
+        }else{
+            $('.user_email').html('');
+        }
     
+        if($password  == ""){
+            $('.user_pass').html('Enter password');
+            $error = 1;
+        }else{
+            $('.user_pass').html('');
+        }
 
-    $(document).ready(function () {
-        $('#submit_login').click(function (e) {
-            e.preventDefault();
+        var g_resp = '';
+       /*var g_resp = grecaptcha.getResponse();
+         if(g_resp  == ""){
+            $('.gresp').html('Invalid Captcha');
+            $error = 1;
+        }else{
+            $('.gresp').html('');
+        }*/
 
-            let email = $.trim($('#email').val());
-            let password = $('#password').val();
-            let error = 0;
+        if($error == 1){
+            return false;
+        }
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LddUPkqAAAAAPsgTYwQC2gAp1vGBtW0xAoPp-1_', { action: 'login' }).then(function (token) {
+                $('#g-recaptcha-response').val(token);
+                var postdata = {"email":$email, "password":$password, "token":$token,"captcha" : token};
 
-            if (email === "") {
-                $('.user_email').html('Enter email id');
-                error = 1;
-            } else {
-                $('.user_email').html('');
-            }
+                $button = $(this);
+                $button.addClass('process');
+                var l = Ladda.create($('#submit_login')[0]);
+                l.start();
 
-            if (password === "") {
-                $('.user_pass').html('Enter password');
-                error = 1;
-            } else {
-                $('.user_pass').html('');
-            }
-
-            if (error === 1) return false;
-
-            // Ensure reCAPTCHA is ready
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6LddUPkqAAAAAPsgTYwQC2gAp1vGBtW0xAoPp-1_', { action: 'login' }).then(function (token) {
-                    $('#g-recaptcha-response').val(token);
-
-                    let postdata = { "email": email, "password": password, "captcha": token };
-
-                    let l = Ladda.create($('#submit_login')[0]);
-                    l.start();
-
-                    $('.errors').html('');
-                    $.ajax({
-                        type: 'POST',
-                        url: '<?php echo site_url()?>admin/login',
-                        data: postdata,
-                        success: function (res) {
-                            if (res.status == 1) {
-                                window.location.href = "<?php echo site_url()?>";
-                            } else {
-                                $('.errors').html(res.message);
-                                grecaptcha.reset();
-                            }
-                            Ladda.stopAll();
-                        },
-                        error: function () {
-                            $('.errors').html('Some error occurred.');
-                            Ladda.stopAll();
+                $('.errors').html('');
+                $.ajax({
+                    type: 'post',
+                    url: '<?php echo site_url()?>admin/login',
+                    data: postdata,
+                    success: function($res) {
+                        if($res.status == 1){
+                             window.location.href = "<?php echo site_url()?>";
+                             return false;
+                        }
+                        else if($res.status == 2){
+                            grecaptcha.reset();
+                        }else if($res.status == 0){
                             grecaptcha.reset();
                         }
-                    });
-                });
+
+                        $('.errors').html($res.message);
+                        
+                        $button.removeClass('process');
+                        Ladda.stopAll();
+                    },
+                    error: function(error, textStatus, errorMessage) {
+                        $('.errors').html('Some error occured.');
+                        $button.removeClass('process');
+                        Ladda.stopAll();
+                        grecaptcha.reset();
+                    }             
+                }); //end ajax
             });
         });
+        
     });
-
-
 </script>
 
 </body>
